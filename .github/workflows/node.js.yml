@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    runs-on: self-hosted # change to ubuntu-latest if using GitHub runner
+    runs-on: self-hosted # change to ubuntu-latest if not using your own runner
 
     strategy:
       matrix:
@@ -23,7 +23,6 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
-        cache: 'npm'
 
     # ===== Backend =====
     - name: Install Backend dependencies
@@ -54,3 +53,4 @@ jobs:
     - name: Restart Backend API
       working-directory: ./Backend
       run: pm2 restart BackendAPI || pm2 start server.js --name BackendAPI
+

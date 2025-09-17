@@ -14,7 +14,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 //MongoDB Connection URL
 //const MongoURL = process.env.MONGODB_URL;
- const MongoUTL = 'mongodb+srv://tharindudeshanhimahansa43:TfA6q3iUaaI8Tdw9@atsyscluster0.zzmn1.mongodb.net/?retryWrites=true&w=majority&appName=AtSysCluster0';
+ const  MongoURL = 'mongodb+srv://tharindudeshanhimahansa43:TfA6q3iUaaI8Tdw9@atsyscluster0.zzmn1.mongodb.net/?retryWrites=true&w=majority&appName=AtSysCluster0';
 
 // ✅ Load service account with ESM-friendly way
 const serviceAccount = JSON.parse(

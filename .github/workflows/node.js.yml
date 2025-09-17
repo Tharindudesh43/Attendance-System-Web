@@ -30,6 +30,10 @@ jobs:
         working-directory: ./backend
         run: npm ci
 
+      - name: Build backend
+        working-directory: ./backend
+        run: npm run build --if-present
+
       - name: Create backend .env file
         working-directory: ./backend
         run: |
@@ -44,10 +48,6 @@ jobs:
           echo "FIREBASE_APP_ID=${{ secrets.FIREBASE_APP_ID }}" >> .env
           echo "FIREBASE_MEASUREMENT_ID=${{ secrets.FIREBASE_MEASUREMENT_ID }}" >> .env
           echo "MONGODB_URL=${{ secrets.MONGODB_URL }}" >> .env
-
-      - name: Build backend (if needed)
-        working-directory: ./backend
-        run: npm run build --if-present
 
       # Frontend
       - name: Install frontend dependencies

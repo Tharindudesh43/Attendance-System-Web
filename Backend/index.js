@@ -34,7 +34,7 @@ app.use(cors());
 //Middleware for parsing request body
 app.use(express.json())
 
-app.listen(1337,()=>{
+app.listen(8000,()=>{
     console.log('Server Started on 1337')
 });
 

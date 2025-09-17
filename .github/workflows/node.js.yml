@@ -1,61 +1,56 @@
 # This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
 
-name: Node.js CI
+name: Node.js CI/CD
 
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
 
 jobs:
   build:
-    runs-on: self-hosted
+    runs-on: self-hosted # change to "ubuntu-latest" if not using your own runner
+
     strategy:
       matrix:
-        node-version: [22.x]
+        node-version: [20.x]
 
     steps:
-      - uses: actions/checkout@v4
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
-        with:
-          cache-dependency-path: subdir/package-lock.json
-          node-version: ${{ matrix.node-version }}
-          cache: 'npm'
+    - name: Setup Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
 
-      # Backend
-      - name: Install backend dependencies
-        working-directory: ./backend
-        run: npm ci
+    # ===== Backend =====
+    - name: Install Backend dependencies
+      working-directory: ./Backend
+      run: npm install
 
-      - name: Build backend
-        working-directory: ./backend
-        run: npm run build --if-present
+    - name: Build Backend (if needed)
+      working-directory: ./Backend
+      run: npm run build --if-present
 
-      - name: Create backend .env file
-        working-directory: ./backend
-        run: |
-          echo "CLOUDINARY_CLOUD_NAME=${{ secrets.CLOUDINARY_CLOUD_NAME }}" >> .env
-          echo "CLOUDINARY_API_KEY=${{ secrets.CLOUDINARY_API_KEY }}" >> .env
-          echo "CLOUDINARY_API_SECRET=${{ secrets.CLOUDINARY_API_SECRET }}" >> .env
-          echo "FIREBASE_API_KEY=${{ secrets.FIREBASE_API_KEY }}" >> .env
-          echo "FIREBASE_AUTH_DOMAIN=${{ secrets.FIREBASE_AUTH_DOMAIN }}" >> .env
-          echo "FIREBASE_PROJECT_ID=${{ secrets.FIREBASE_PROJECT_ID }}" >> .env
-          echo "FIREBASE_STORAGE_BUCKET=${{ secrets.FIREBASE_STORAGE_BUCKET }}" >> .env
-          echo "FIREBASE_MESSAGING_SENDER_ID=${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}" >> .env
-          echo "FIREBASE_APP_ID=${{ secrets.FIREBASE_APP_ID }}" >> .env
-          echo "FIREBASE_MEASUREMENT_ID=${{ secrets.FIREBASE_MEASUREMENT_ID }}" >> .env
-          echo "MONGODB_URL=${{ secrets.MONGODB_URL }}" >> .env
+    # ===== Frontend =====
+    - name: Install Frontend dependencies
+      working-directory: ./FrontEnd
+      run: npm install
 
-      # Frontend
-      - name: Install frontend dependencies
-        working-directory: ./frontend
-        run: npm ci
+    - name: Build Frontend
+      working-directory: ./FrontEnd
+      run: npm run build --if-present
 
-      - name: Build frontend
-        working-directory: ./frontend
-        run: npm run build --if-present
+    # ===== Setup ENV for Backend =====
+    - name: Create .env file for Backend
+      working-directory: ./Backend
+      run: |
+        touch .env
+        echo "${{ secrets.PROD_ENV_FILE }}" > .env
 
+    # ===== Restart Backend with PM2 =====
+    - name: Restart Backend API
+      working-directory: ./Backend
+      run: pm2 restart BackendAPI || pm2 start server.js --name BackendAPI

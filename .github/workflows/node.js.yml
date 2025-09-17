@@ -52,5 +52,5 @@ jobs:
     # ===== Restart Backend with PM2 =====
     - name: Restart Backend API
       working-directory: ./Backend
-      run: pm2 restart BackendAPI || pm2 start server.js --name BackendAPI
+      run: pm2 restart BackendAPI || pm2 start index.js --name BackendAPI
 

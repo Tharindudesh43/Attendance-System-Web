@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    runs-on: self-hosted # change to "ubuntu-latest" if not using your own runner
+    runs-on: self-hosted # change to ubuntu-latest if using GitHub runner
 
     strategy:
       matrix:

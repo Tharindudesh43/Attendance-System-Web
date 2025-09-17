@@ -17,36 +17,36 @@ dotenv.config();
  const  MongoURL = 'mongodb+srv://tharindudeshanhimahansa43:TfA6q3iUaaI8Tdw9@atsyscluster0.zzmn1.mongodb.net/?retryWrites=true&w=majority&appName=AtSysCluster0';
 
 // ✅ Load service account with ESM-friendly way
-const serviceAccount = JSON.parse(
-  readFileSync(new URL("./serviceAccountKey.json", import.meta.url), "utf8")
-);
+// const express = require("express");
+// const cors = require("cors");
+// require("dotenv").config();
 
-adminfirebase.initializeApp({
-  credential: adminfirebase.credential.cert(serviceAccount),
-});
+const connectDB = require("./db/db");
+const errorHandler = require("./middlewares/errorhandler");
+const userRoutes = require("./routes/userRoutes");
 
-const messaging = adminfirebase.messaging();
+const app = express();
+const port = process.env.PORT || 8000;
 
-//middleware for handling CORS POLICY
-//option 01: Allow All Origins with Default of cors(*)
 app.use(cors());
+app.use(express.json());
 
-//Middleware for parsing request body
-app.use(express.json())
+//connect to the database
+connectDB();
 
-app.listen(8000,()=>{
-    console.log('Server Started on 1337')
+//routes
+app.use("/api/users", userRoutes);
+
+app.use("/api/products", (req, res) => {
+  return res.status(200).json({
+    message: "This is new feature change, a new route for products samin",
+  });
 });
 
-app.use('/admin_report',AdminReportRoute);
-app.use('/admin',AdminRoute);
-app.use('/lecturer',LecturerRoute);
+//error handler
+app.use(errorHandler);
 
-//MongoDB Connection
-mongoose.connect(MongoURL,{dbName:'AttendanceSystem'}).
-then(()=>{
-    console.log('Connected to Attendace System Database')
-})
-.catch(err=>{
-    console.error('MongoDB Connection Error:',err);
-})
+//listen to the server
+app.listen(port, () => {
+  console.log(`Server is running on port: ${port}`);
+});

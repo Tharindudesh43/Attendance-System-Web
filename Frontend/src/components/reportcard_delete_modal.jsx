@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from 'react'; 
-import { AiOutlineClose } from "react-icons/ai";
-import { useStat } from "react";
-import { useNavigate, useParams } from 'react-router-dom';
-import { SnackbarProvider, useSnackbar } from 'notistack';
+import React, { useState } from 'react'; 
+import { useNavigate } from 'react-router-dom';
+import {useSnackbar } from 'notistack';
 import { useContextData } from "../ReloadContext"
 import axios from 'axios';
 
@@ -19,10 +17,10 @@ const ReportCardDeleteModal = ({ reportId, reportimages,userId,onClose}) => {
         const DeleteReportDetails = new FormData();
         DeleteReportDetails.append("reportid", reportId);
         reportimages.forEach((item) => {
-          DeleteReportDetails.append("reportimages[]", item); // notice the []
+          DeleteReportDetails.append("reportimages[]", item);
         });
       
-          const response = await axios.delete('http://localhost:1337/admin_report/deletereport',{
+          const response = await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/admin_report/deletereport`,{
                   data: DeleteReportDetails, 
                   headers: { "Content-Type": "multipart/form-data" }
           });
@@ -30,7 +28,7 @@ const ReportCardDeleteModal = ({ reportId, reportimages,userId,onClose}) => {
           const data = await response.data;
           if(data.status==='ok'){
 
-               const firebase_response = await axios.delete('http://localhost:1337/admin_report/deletereport_firebase', {
+               const firebase_response = await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/admin_report/deletereport_firebase`, {
                 data: { reportid: reportId, userId: userId },
               });
               const reply = await firebase_response.data;
@@ -49,8 +47,6 @@ const ReportCardDeleteModal = ({ reportId, reportimages,userId,onClose}) => {
                   autoHideDuration: 3000
               });
             }
-          
-            
           }else if(data.status==='not found'){
             enqueueSnackbar("Report Not Found", {
                 variant: "error",
@@ -67,8 +63,6 @@ const ReportCardDeleteModal = ({ reportId, reportimages,userId,onClose}) => {
     }
 
   return (
-    <div>
-        <div id="modal"  >
             <div 
                 class="fixed inset-0 p-4 flex flex-wrap justify-center items-center w-full h-100 z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto">
                 <div class="w-full max-w-lg bg-white shadow-lg rounded-lg p-6 relative">
@@ -92,9 +86,7 @@ const ReportCardDeleteModal = ({ reportId, reportimages,userId,onClose}) => {
                                 data-original="#000000" />
                         </svg>
                         <h4 class="text-slate-900  text-base font-medium mt-4">Are you sure you want to delete this item? 
-                        {/* <h6 className='text-2xl font-bold text-red-700'>
-                       ddw
-                        </h6>   */}
+      
                         </h4>
     
                         <div class="text-center space-x-4 mt-10">
@@ -135,8 +127,6 @@ const ReportCardDeleteModal = ({ reportId, reportimages,userId,onClose}) => {
                     </div>
                 </div>
             </div>
-        </div>  
-    </div>
   );
 };
 

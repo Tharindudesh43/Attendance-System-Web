@@ -7,8 +7,6 @@ import {
   PDFViewer,
   Image
 } from "@react-pdf/renderer";
-import { useNavigate } from "react-router-dom";
-import { useLocation } from "react-router-dom";
 import { useState,useEffect } from 'react'
 
 // Sample Data
@@ -80,7 +78,6 @@ const styles = StyleSheet.create({
 // Create Document Component
 function LecAttendance() {
    const [allattendace, setAllAttendace] = useState([]);
-   const [subject,setsubject]=useState("");
    const [academic,setacademic]=useState("");
    const [university,setuniversity]=useState("");
    const [faculty,setfaculty]=useState("");
@@ -103,8 +100,6 @@ function LecAttendance() {
       const coursecode = subject.split(" ");
       const parts = subject.split(" ").slice(3); // Remove first 3 items
       const joined_coursetitle = parts.join(" ").replace(/"/g, '');
-      //const result =  subjectparts.slice(3);
-      //const resultagain = result.replace(/"/g, '')
       setcoursetitle(joined_coursetitle);
       const newstring = coursecode[0]+coursecode[1]; 
       const modified_coursecode = newstring.replace(/"/g, '');
@@ -135,7 +130,6 @@ function LecAttendance() {
           <View style={styles.tableHeader}>
             <Text style={styles.headerCell}>Student Name</Text>
             <Text style={styles.headerCell}>Registration No</Text>
-            {/* <Text style={styles.headerCell}>Time</Text> */}
           </View>
 
           {/* Table Rows */}
@@ -143,11 +137,8 @@ function LecAttendance() {
             <View style={styles.tableRow} key={index}>
               <Text style={styles.cell}>{item[1]}</Text>
               <Text style={styles.cell}>{item[0]}</Text>
-              {/* <Text style={styles.cell}>{item.time}</Text> */}
             </View>
           ))}
-
-          {/* Remarks Section */}
           <View style={{ marginTop: 40 }}>
         <Text>Note: Please return to the Department of {department} on completion of the lecture or lab session.</Text>
 </View>

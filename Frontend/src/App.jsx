@@ -1,13 +1,9 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 import { Route, Routes } from 'react-router-dom'
 import Home from './pages/home';
 import Admin from './pages/admin';
 import Lecture from './pages/lecturer';
 import LecturerQRGen from './pages/Lecturerqrgen';
-import AdminDashboard from './pages/adminDashboard';
 import LectureLogin from './pages/lec_login';
 import AdminLogin from './pages/admin_login';
 import AdminSubject from './pages/admin_subject';
@@ -18,6 +14,7 @@ import AttendanceHistory from './pages/Lecturer_Attendance_History';
 import {ReloadProvider } from './ReloadContext'
 import AttHistoryData from './pages/Att_History_data';
 import LecAttAnalysis from './pages/Lec_Att_Analysis';
+import SendNotification from './pages/send_notifications';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 function App() {
@@ -37,7 +34,8 @@ function App() {
           <Route path='/lecturer/att_history_data/:id/:subject/:year' element={<AttHistoryData />} />
           <Route path='/lecturer/attendace_history/:id' element={<AttendanceHistory/>}></Route>
           <Route path='/admin/subjectsdetails/:id' element={<Subjectsdetails/>}></Route>
-          <Route path='/lecturer/attendace_analysis' element={<LecAttAnalysis/>}></Route>
+          <Route path='/lecturer/attendace_analysis/:id' element={<LecAttAnalysis/>}></Route>
+          <Route path='/lecturer/send_notification/:id' element={<SendNotification/>}></Route>
       </Routes>
     </ReloadProvider>
     </>

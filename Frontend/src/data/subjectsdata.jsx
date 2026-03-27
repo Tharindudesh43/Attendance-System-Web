@@ -1,5 +1,3 @@
-import React from 'react';
-
 //------FOT-----------------ICT-------------------------------------------
 const fot_ict_firstYear_sem_01_subjects = [
     'CIS 11011 - Essential Of ICT And PC Application',

@@ -1,14 +1,6 @@
-import React, { useEffect, useState } from 'react'; 
-import { AiOutlineClose } from "react-icons/ai";
-import { useStat } from "react";
-import { useNavigate, useParams } from 'react-router-dom';
-import { SnackbarProvider, useSnackbar } from 'notistack';
-import { useContextData } from "../ReloadContext"
-
 const ReportInfoModal = ({ reportDescription, onClose}) => {
 
-    const { enqueueSnackbar } = useSnackbar();
-    const navigate = useNavigate();
+
 
   return (
     <div>
@@ -28,54 +20,16 @@ const ReportInfoModal = ({ reportDescription, onClose}) => {
                     </svg>
     
                     <div  class="my-6 text-center">
-                        {/* <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 fill-red-500 inline" viewBox="0 0 24 24">
-                            <path
-                                d="M19 7a1 1 0 0 0-1 1v11.191A1.92 1.92 0 0 1 15.99 21H8.01A1.92 1.92 0 0 1 6 19.191V8a1 1 0 0 0-2 0v11.191A3.918 3.918 0 0 0 8.01 23h7.98A3.918 3.918 0 0 0 20 19.191V8a1 1 0 0 0-1-1Zm1-3h-4V2a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v2H4a1 1 0 0 0 0 2h16a1 1 0 0 0 0-2ZM10 4V3h4v1Z"
-                                data-original="#000000" />
-                            <path d="M11 17v-7a1 1 0 0 0-2 0v7a1 1 0 0 0 2 0Zm4 0v-7a1 1 0 0 0-2 0v7a1 1 0 0 0 2 0Z"
-                                data-original="#000000" />
-                        </svg> */}
+        
                         <h1 className='text-2xl font-bold text-red-700'>Report Information</h1>
                         <h4 class="text-slate-900  text-base font-medium mt-4">{reportDescription}
-                        {/* <h6 className='text-2xl font-bold text-red-700'>
-                       ddw
-                        </h6>   */}
+                
                         </h4>
     
                         <div class="text-center space-x-4 mt-10">
                             <button id="closeButton" type="button" onClick={onClose}
                                 class="px-5 py-2 cursor-pointer rounded-lg text-slate-900 text-sm font-medium bg-gray-200 hover:bg-gray-300 active:bg-gray-200">
                                 Close</button>
-                           
-                                {/* <button
-                                 type="button"
-                                onClick={reportcarddelete}
-                                 className="px-5 cursor-pointer py-2.5 rounded-lg text-white text-sm font-medium bg-red-600 hover:bg-red-700 active:bg-red-600"
-                                 disabled={isDeleting}>
-                                   {isDeleting ? (
-                                      <div className="flex items-center justify-center">
-                                       <svg
-                                         className="w-5 h-5 text-white animate-spin"
-                                        viewBox="0 0 24 24">
-                                         <circle
-                                           className="opacity-25"
-                                            cx="12"
-                                            cy="12"
-                                            r="10"
-                                            stroke="currentColor"
-                                            strokeWidth="4"
-                                          ></circle>
-                                         <path
-                                            className="opacity-75"
-                                           fill="currentColor"
-                                            d="M4 12a8 8 0 018-8v8H4z"
-                                          ></path>
-                                        </svg>
-                                      </div>
-                                  ) : (
-                                      "Yes, Delete"
-                                  )}
-                                </button> */}
                         </div>
                     </div>
                 </div>

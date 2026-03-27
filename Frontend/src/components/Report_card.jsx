@@ -1,119 +1,113 @@
 import React, { useState } from "react";
-import anonymousimage from '../assets/anonymous.png';
-import userimage from '../assets/user.png';
+import anonymousimage from "../assets/anonymous.png";
+import userimage from "../assets/user.png";
 import axios from "axios";
 import { useEffect } from "react";
 import { useContextData } from "../ReloadContext.jsx";
-import  ReportDeleteConfirm from "./reportcard_delete_modal.jsx";
-import  ReportInfoModal from "./reportcad_info_modal.jsx";
+import ReportDeleteConfirm from "./reportcard_delete_modal.jsx";
+import ReportInfoModal from "./reportcad_info_modal.jsx";
+import { enqueueSnackbar } from "notistack";
 
 const Report_card = ({
-    _id,
-    reportId,
-    reportType,
-    date,
-    user,
-    student_email,
-    time,
-    statuspassed,
-    reportTitle,
-    reportDescription,
-    reportImages,
-    user_id
+  _id,
+  reportId,
+  reportType,
+  date,
+  user,
+  time,
+  statuspassed,
+  reportTitle,
+  reportDescription,
+  reportImages,
+  user_id,
 }) => {
-    const [DeleteConfirmShowModal, setDeleteConfirmShowModal] = useState(false);
-    const [ReportInfoShowModal, setReportInfoShowModal] = useState(false);
-    const [ReportDetailsModal, setReportDetailsModal] = useState(false);
-    const [previewImage, setPreviewImage] = useState(null);
-    const [status, setStatus] = useState("Not Watched");
-    const {reload, setReload} = useContextData();
-    const [expanded, setExpanded] = useState(false);
+  const [DeleteConfirmShowModal, setDeleteConfirmShowModal] = useState(false);
+  const [ReportInfoShowModal, setReportInfoShowModal] = useState(false);
+  const [previewImage, setPreviewImage] = useState(null);
+  const [status, setStatus] = useState("Not Watched");
+  const { reload, setReload } = useContextData();
 
+  useEffect(() => {
+    setStatus(statuspassed);
+  }, [reload]);
 
-      useEffect(()=>{
-        setStatus(statuspassed)
-      },[reload])
+  const statusIcons = [
+    {
+      name: "Watching",
+      icon: "fas fa-eye",
+      color: "text-yellow-500",
+      bg: "bg-yellow-100",
+      hover: "hover:bg-yellow-200",
+    },
+    {
+      name: "Mark as Done",
+      icon: "fas fa-check-circle",
+      color: "text-green-600",
+      bg: "bg-green-100",
+      hover: "hover:bg-green-200",
+    },
+    {
+      name: "Not Watched",
+      icon: "fas fa-eye-slash",
+      color: "text-gray-400",
+      bg: "bg-gray-100",
+      hover: "hover:bg-gray-200",
+    },
+  ];
 
-    const statusIcons = [
-  {
-    name: "Watching",
-    icon: "fas fa-eye",
-    color: "text-yellow-500",
-    bg: "bg-yellow-100",
-    hover: "hover:bg-yellow-200"
-  },
-  {
-    name: "Mark as Done",
-    icon: "fas fa-check-circle",
-    color: "text-green-600",
-    bg: "bg-green-100",
-    hover: "hover:bg-green-200"
-  },
-  {
-    name: "Not Watched",
-    icon: "fas fa-eye-slash",
-    color: "text-gray-400",
-    bg: "bg-gray-100",
-    hover: "hover:bg-gray-200"
-  }
-];
+  const statusStyles = {
+    Watching: "bg-yellow-500 text-white",
+    "Mark as Done": "bg-green-600 text-white",
+    "Not Watched": "bg-gray-400 text-white",
+  };
 
-    const statusStyles = {
-      Watching: "bg-yellow-500 text-white",
-      "Mark as Done": "bg-green-600 text-white",
-      "Not Watched": "bg-gray-400 text-white",
-    };
-
-    async function changereport_Status (statusname) {
-      console.log(statusname)
-      console.log(_id)
-      const ChangeReportStatus = new FormData();
-      const ChangeReportStatusFirebase = new FormData();
-      ChangeReportStatus.append("status", statusname);
-      ChangeReportStatus.append("id", _id);
-      const response = await axios.post('http://localhost:1337/admin_report/change_status', ChangeReportStatus, {
+  async function changereport_Status(statusname) {
+    const ChangeReportStatus = new FormData();
+    const ChangeReportStatusFirebase = new FormData();
+    ChangeReportStatus.append("status", statusname);
+    ChangeReportStatus.append("id", _id);
+    const response = await axios.post(
+      `${import.meta.env.VITE_API_BASE_URL}/admin_report/change_status`,
+      ChangeReportStatus,
+      {
         headers: { "Content-Type": "multipart/form-data" },
-      });
-      if(response.data.status==='ok'){
-            ChangeReportStatusFirebase.append("status", statusname);
-            ChangeReportStatusFirebase.append("reportid", reportId);
-            ChangeReportStatusFirebase.append("userId", user_id);
-            const reply = await axios.post('http://localhost:1337/admin_report/change_status_firebase',ChangeReportStatusFirebase, {
-              headers: { "Content-Type": "multipart/form-data" },
-            });
-
-            if(reply.data.status==='ok'){
-              setReload(prev => !prev);
-              enqueueSnackbar("Report Status Updated Successfully!", { 
-                  variant: "success", 
-                  autoHideDuration: 3000 
-              });
-            }else{
-              setReload(prev => !prev);
-               enqueueSnackbar("Report Status Update Failed! (User)", { 
-                  variant: "error", 
-                  autoHideDuration: 3000 
-                });
-            }
-        // setreportsData(response.data.reports)
-        // setloadingimg1(false);
-        // navigate('/admin')
-      }else{
-         setReload(prev => !prev);
-         enqueueSnackbar("Report Delete Unsuccessful!", { 
-                  variant: "error", 
-                  autoHideDuration: 3000 
-          });
-        // alert(response.data.status)
-        // setReload(!reload)
-        // setloadingimg1(false);
+      },
+    );
+    if (response.data.status === "ok") {
+      ChangeReportStatusFirebase.append("status", statusname);
+      ChangeReportStatusFirebase.append("reportid", reportId);
+      ChangeReportStatusFirebase.append("userId", user_id);
+      const reply = await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/admin_report/change_status_firebase`,
+        ChangeReportStatusFirebase,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        },
+      );
+      if (reply.data.status === "ok") {
+        setReload((prev) => !prev);
+        enqueueSnackbar("Report Status Updated Successfully!", {
+          variant: "success",
+          autoHideDuration: 3000,
+        });
+      } else {
+        setReload((prev) => !prev);
+        enqueueSnackbar("Report Status Update Failed! (User)", {
+          variant: "error",
+          autoHideDuration: 3000,
+        });
       }
+    } else {
+      setReload((prev) => !prev);
+      enqueueSnackbar("Report Status Update Unsuccessful!", {
+        variant: "error",
+        autoHideDuration: 3000,
+      });
     }
+  }
 
-
-    return (
+  return (
     <div className="relative flex flex-row w-full max-w-full mx-auto overflow-hidden transition-all duration-300 bg-gray-700 shadow-lg rounded-2xl hover:shadow-2xl">
-      {/* Reporter Info (Left Side) */}
       <div className="flex flex-col items-center justify-center w-40 gap-1 p-3 bg-gray-800">
         <img
           src={user === "Anonymous" ? anonymousimage : userimage}
@@ -131,7 +125,6 @@ const Report_card = ({
           <br />
           {time}
         </span>
-        {/* Status Badge */}
         <span
           className={`mt-1 px-2 py-1 text-xs font-semibold rounded-full ${statusStyles[statuspassed]}`}
         >
@@ -139,7 +132,6 @@ const Report_card = ({
         </span>
       </div>
 
-      {/* Report Content (Middle) */}
       <div className="flex flex-col justify-between flex-1 px-6 py-3 w-64">
         <div>
           {/* Title */}
@@ -147,8 +139,6 @@ const Report_card = ({
             {reportTitle}
           </h3>
 
-          {/* Description */}
-         {/* <p className="mb-3 text-xs text-gray-300 text-justify max-h-20 overflow-y-auto"> {reportDescription} </p> */}
           <button
             className="mt-1 mb-1 pt-1 pb-1 pl-2 pr-2 text-green-600 transition-all duration-200 bg-green-100 text-xs rounded-full shadow-md hover:bg-green-200 hover:scale-105"
             title="Info"
@@ -173,7 +163,6 @@ const Report_card = ({
           )}
         </div>
 
-        {/* Action Buttons */}
         <div className="flex gap-3 mt-3">
           <button
             className="pt-2 pb-2 pl-3 pr-3 text-red-600 transition-all duration-200 bg-red-100 rounded-full shadow-md hover:bg-red-200 hover:scale-105"
@@ -185,7 +174,6 @@ const Report_card = ({
         </div>
       </div>
 
-      {/* Status Icons (Right Side) */}
       <div className="flex flex-col items-center justify-center gap-3 px-3 py-2">
         {statusIcons.map((stat) => (
           <button
@@ -195,7 +183,10 @@ const Report_card = ({
               ${stat.bg} ${stat.hover}
               ${
                 statuspassed === stat.name
-                  ? stat.color + " ring-2 ring-offset-2 ring-" + stat.color.split("-")[1] + "-400"
+                  ? stat.color +
+                    " ring-2 ring-offset-2 ring-" +
+                    stat.color.split("-")[1] +
+                    "-400"
                   : "opacity-80"
               }
             `}
@@ -215,7 +206,7 @@ const Report_card = ({
           onClose={() => setDeleteConfirmShowModal(false)}
         />
       )}
-        {ReportInfoShowModal && (
+      {ReportInfoShowModal && (
         <ReportInfoModal
           reportDescription={reportDescription}
           onClose={() => setReportInfoShowModal(false)}

@@ -10,7 +10,6 @@ import LecturerUser from '../models/lecture_user.js';
 
 dotenv.config();
 
-
 const AdminRouter = express.Router();
 
 cloudinary.config({
@@ -22,7 +21,7 @@ cloudinary.config({
 const storage = new CloudinaryStorage({
     cloudinary: cloudinary,
     params: {
-        folder: "lectures/profileimages", // Folder name in Cloudinary
+        folder: "lectures/profileimages",
         allowed_formats: ["jpg", "png", "jpeg"],
     },
 });
@@ -45,7 +44,7 @@ const extractPublicId = (url) => {
         // Find the position where 'upload' exists and extract folder structure after it
         const uploadIndex = parts.indexOf("upload");
         if (uploadIndex === -1 || uploadIndex + 1 >= parts.length) {
-            return null; // Invalid Cloudinary URL
+            return null; 
         }
 
         // Extract folder path + filename
@@ -78,6 +77,8 @@ AdminRouter.delete('/deleteLecturer',uploadx.none(), async(req,res)=>{
     }
 })
 
+
+
 //Delete ad Subject from Lecturer
 AdminRouter.delete('/deleteSubject',uploadx.none(), async(req,res)=>{
     try{
@@ -99,10 +100,7 @@ AdminRouter.delete('/deleteSubject',uploadx.none(), async(req,res)=>{
     
         // Remove the subject from the lecturer's subjects array
         if (subjectIndex >= 0 && subjectIndex < lecturer.subjects.length) {
-            lecturer.subjects.splice(subjectIndex, 1); // Remove the subject at the provided index
-            console.log("LLLLLLLLbbbbbbbbL",lecturer.subjects);
-            console.log("SSSSSSSSbbbbbbbbS")
-            
+            lecturer.subjects.splice(subjectIndex, 1);
         if (year === "1st Year") {
             const originalList = lecturer.attendance[0];
     
@@ -204,9 +202,7 @@ AdminRouter.post('/adminlogin',uploadx.none(),async (req,res)=>{
         if(!adminuser){
             return res.json({status: 'error',error: 'Admin Not Found'})
         }else{
-            console.log(req.body.email)
             const isPasswordValid = await bcrypt.compare(req.body.password,adminuser.password);
-
             if(isPasswordValid){
                 const token = jwt.sign({
                     email:adminuser.email
@@ -221,6 +217,7 @@ AdminRouter.post('/adminlogin',uploadx.none(),async (req,res)=>{
         console.log("Error while login admin user",error);
     }
 });
+
 
 
 //Adding Lecturer to store
@@ -247,14 +244,15 @@ AdminRouter.post('/lectureadd',upload.single("image"),async (req,res)=>{
     }
 });
 
+
+
 //Add subject for lecturer
 AdminRouter.post('/addsubjects',uploadx.none(), async (req, res) => {
-    //console.log("Subject to add:", re, "Lecturer ID:", id);
     try {
         const subjectdata = [];
         subjectdata.push([req.body.ac_year,req.body.year,req.body.semester,req.body.subject,req.body.sem_version,[0,req.body.sem_version==="Long Semester" ? 20 : 12 ]]); //
         const updatedLecturer = await LecturerUser.findByIdAndUpdate(
-        req.body.id, // Use the ID from the request body
+        req.body.id,
         { $push: { subjects: subjectdata }  },
         { new: true }
       );
@@ -266,12 +264,11 @@ AdminRouter.post('/addsubjects',uploadx.none(), async (req, res) => {
 });
 
 
+
 //populate all Lecturers
 AdminRouter.get('/lectures',async (req,res)=>{
     const admintoken =  req.headers['x-access-token']
     try{
-        // const decoded =  jwt.verify(admintoken,'secret123')
-        // const email = decoded.email
         const lecture_user_data = await LecturerUser.find({});
         return res.json({status:'ok',lec_data:lecture_user_data})
     }catch(error){
@@ -279,8 +276,6 @@ AdminRouter.get('/lectures',async (req,res)=>{
         res.json({status:'error',error:'Connection Problem Error'});
     }
 });
-
-
 
 
 
@@ -302,7 +297,7 @@ AdminRouter.get('/subjectsdetails/:id', async (req, res) => {
             ? lecturer.subjects 
             : 'No subjects available';
 
-        // Return the subjects
+        // Return the subject
         console.log(subjects);
         console.log("DDDDD")
         return res.json({ status: 'ok', subjects });
@@ -314,7 +309,7 @@ AdminRouter.get('/subjectsdetails/:id', async (req, res) => {
 
 
 
-//findUp alreadty that adding subject stored or not
+//findUp already that adding subject stored or not
 AdminRouter.post('/finddup',uploadx.none(), async (req, res) => {
     try {
       let sum = 0

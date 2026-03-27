@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion,AnimatePresence } from 'framer-motion';
 import AboutUsModal from '../components/AboutUs_modal';
 import ConatctUsModal from '../components/ContactUs_modal';
 import { useNavigate } from "react-router-dom";
-import { SnackbarProvider, useSnackbar } from 'notistack';
+import { useSnackbar } from 'notistack';
 import { jwtDecode } from "jwt-decode";
 import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
 import Admin from '@mui/icons-material/AdminPanelSettingsSharp';
 import { green } from '@mui/material/colors';
-import icon from '../assets/icon.png';
+import icon from '../assets/NavIcon.png';
 
-const navbar = () => {
+const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
   const [AboutUsShowModal, setAboutUsShowModal] = useState(false);
@@ -68,14 +68,7 @@ const navbar = () => {
     exit: { opacity: 0, y: -32, transition: { duration: 0.4, ease: "easeIn" } }
   };
 
-  const linkVariants = {
-    hover: {
-      scale: 1.07,
-      backgroundColor: "#2563eb",
-      color: "#fff",
-      transition: { type: "spring", stiffness: 300, damping: 20 }
-    }
-  };
+
 
   return (
     <div>
@@ -87,11 +80,11 @@ const navbar = () => {
             initial="hidden"
             animate="visible"
             exit="exit"
-            className="sticky top-0 z-50 bg-white shadow-lg backdrop-blur-lg"
+            className="sticky top-0 z-50 bg-gray-300 shadow-lg backdrop-blur-lg"
             style={{
               // borderRadius: "0 0 18px 18px",
               borderBottom: "2px solid #D9DEE8FF",
-              boxShadow: "0 8px 24px rgba(30,41,59,0.08)"
+              boxShadow: "0 8px 24px rgba(166, 171, 180, 0.08)"
             }}
           >
             <div className="px-2 mx-auto max-w-7xl sm:px-6 lg:px-8">
@@ -123,63 +116,36 @@ const navbar = () => {
                       <img
                         src={icon}
                         alt="AttendanceSystem"
-                        className="object-contain w-24 h-24"
+                        className="object-contain w-10 h-10"
                       />
                   </div>
                   <div className="hidden sm:ml-6 sm:block">
-                    <div className="flex mt-6 space-x-4">
+                    <div className="flex mt-0 space-x-4 ">
                        <button
                        style={{ fontFamily: 'Poppins' }}
                           onClick={movehome}
-                          className="relative px-3 py-2 text-xl font-bold text-blue-500 transition rounded-md text-xlfont-bold group hover:text-blue-400"
+                          className="relative px-3 py-2 text-xl font-bold text-gray transition rounded-md text-xlfont-bold group hover:text-gray-600"
                         >
                         Home
-                      <span className="absolute left-0 bottom-0 w-0 group-hover:w-full h-[2px] bg-blue-500 transition-all" />
+                      <span className="absolute left-0 bottom-0 w-0 group-hover:w-full h-[2px] bg-gray-600 transition-all" />
                       </button>
                  
                        <button
                           style={{ fontFamily: 'Poppins' }}
                           onClick={() => setAboutUsShowModal(true)}
-                           className="relative px-3 text-xl font-bold text-blue-500 transition rounded-md py2 group hover:text-blue-400"
+                           className="relative px-3 text-xl font-bold text-gray transition rounded-md py2 group hover:text-gray-600"
                         >
                          About Us
-                      <span className="absolute left-0 bottom-0 w-0 group-hover:w-full h-[2px] bg-blue-500 transition-all" />
+                      <span className="absolute left-0 bottom-0 w-0 group-hover:w-full h-[2px] bg-gray-600 transition-all" />
                       </button>
                         <button
                           style={{ fontFamily: 'Poppins' }}
                           onClick={() => setContactUsShowModal(true)}
-                          className="relative px-3 py-2 text-xl font-bold text-blue-500 transition rounded-md group hover:text-blue-400"
+                          className="relative px-3 py-2 text-xl font-bold text-gray transition rounded-md group hover:text-gray-600"
                         >
                         Contact Us
-                      <span className="absolute left-0 bottom-0 w-0 group-hover:w-full h-[2px] bg-blue-500 transition-all" />
+                      <span className="absolute left-0 bottom-0 w-0 group-hover:w-full h-[2px] bg-gray-600 transition-all" />
                       </button>
-                      {/* <motion.a
-                        whileHover="hover"
-                        variants={linkVariants}
-                        onClick={movehome}
-                        className="cursor-pointer rounded-md bg-gray-600 px-3 py-2 text-sm font-medium text-white hover:bg-[#2563eb] hover:text-white transition-colors"
-                        style={{ position: "relative", zIndex: 1 }}
-                      >
-                        Home
-                      </motion.a> */}
-                      {/* <motion.a
-                        whileHover="hover"
-                        variants={linkVariants}
-                        onClick={() => setAboutUsShowModal(true)}
-                        className="cursor-pointer rounded-md bg-gray-600 px-3 py-2 text-sm font-medium text-white hover:bg-[#2563eb] hover:text-white transition-colors"
-                        style={{ position: "relative", zIndex: 1 }}
-                      >
-                        About Us
-                      </motion.a> */}
-                      {/* <motion.a
-                        whileHover="hover"
-                        variants={linkVariants}
-                        onClick={() => setContactUsShowModal(true)}
-                        className="cursor-pointer rounded-md bg-gray-600 px-3 py-2 text-sm font-medium text-white hover:bg-[#2563eb] hover:text-white transition-colors"
-                        style={{ position: "relative", zIndex: 1 }}
-                      >
-                        Contact Us
-                      </motion.a> */}
                     </div>
                   </div>
                 </div>
@@ -300,30 +266,6 @@ const navbar = () => {
                         Contact Us
                        <span className="absolute left-0 bottom-0 w-0 group-hover:w-full h-[2px] bg-[#2563eb] transition-all" />
                       </button>
-                    {/* <motion.a
-                      whileHover="hover"
-                      variants={linkVariants}
-                      onClick={() => { setIsMenuOpen(false); navigate('/'); }}
-                      className="cursor-pointer block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white hover:bg-[#2563eb] hover:text-white transition-colors"
-                    >
-                      Home
-                    </motion.a>
-                    <motion.a
-                      whileHover="hover"
-                      variants={linkVariants}
-                      onClick={() => { setIsMenuOpen(false); setAboutUsShowModal(true); }}
-                      className="cursor-pointer block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white hover:bg-[#2563eb] hover:text-white transition-colors"
-                    >
-                      About Us
-                    </motion.a>
-                    <motion.a
-                      whileHover="hover"
-                      variants={linkVariants}
-                      onClick={() => { setIsMenuOpen(false); setContactUsShowModal(true); }}
-                      className="cursor-pointer block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white hover:bg-[#2563eb] hover:text-white transition-colors"
-                    >
-                      Contact Us
-                    </motion.a> */}
                   </div>
                 </motion.div>
               )}
@@ -337,21 +279,19 @@ const navbar = () => {
             initial="hidden"
             animate="visible"
             exit="exit"
-            className="sticky top-0 z-50 shadow-lg bg-white-900/90 backdrop-blur-lg"
+            className="sticky top-0 z-50 shadow-lg bg-gray-300/90 backdrop-blur-lg"
             style={{
-              // borderRadius: "0 0 18px 18px",
               borderBottom: "2px solid #DBDCDDFF",
               boxShadow: "0 8px 24px rgba(30,41,59,0.08)"
             }}
           >
             <div className="px-2 mx-auto max-w-7xl sm:px-6 lg:px-8">
-              <div className="relative flex items-center justify-between h-16">
-                {/* Mobile menu button */}
+              <div className="relative flex items-center justify-between h-20">
                 <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                   <button
                     type="button"
                     onClick={() => setIsMenuOpen(!isMenuOpen)}
-                    className="relative inline-flex items-center justify-center p-2 text-gray-400 rounded-md hover:bg-gray-600 hover:text-white focus:ring-2 focus:ring-white focus:outline-none focus:ring-inset"
+                    className="relative inline-flex items-center justify-center p-2 text-gray-400 rounded-md hover:bg-gray-300 hover:text-white focus:ring-2 focus:ring-white focus:outline-none focus:ring-inset"
                     aria-controls="mobile-menu"
                     aria-expanded={isMenuOpen}
                   >
@@ -366,21 +306,20 @@ const navbar = () => {
                     )}
                   </button>
                 </div>
-                {/* Navigation Links */}
                 <div className="flex items-center justify-center flex-1 sm:items-stretch sm:justify-start">
                   <div className="flex items-center shrink-0">
                       <img
                         src={icon}
                         alt="AttendanceSystem"
-                        className="object-contain w-24 h-24"
+                        className="object-contain w-10 h-10"
                       />
                   </div>
                   <div className="hidden sm:ml-6 sm:block">
-                    <div className="flex mt-6 space-x-4">
+                    <div className="flex mt-0 space-x-4 ">
                        <button
                        style={{ fontFamily: 'Poppins' }}
                           onClick={movehome}
-                          className="relative px-3 py-2 text-xl font-bold transition rounded-md text-rose-600 group hover:text-rose-400"
+                          className="relative px-3 py-2 text-xl font-bold transition rounded-md text-gray-600 group hover:text-rose-400"
                         >
                         Home
                       <span className="absolute left-0  bottom-0 w-0 group-hover:w-full h-[2px] bg-rose-600 transition-all" />
@@ -389,7 +328,7 @@ const navbar = () => {
                        <button
                        style={{ fontFamily: 'Poppins' }}
                           onClick={() => setAboutUsShowModal(true)}
-                          className="relative px-3 py-2 text-xl font-bold transition rounded-md text-rose-600 group hover:text-rose-400"
+                          className="relative px-3 py-2 text-xl font-bold transition rounded-md text-gray-600 group hover:text-rose-400"
                         >
                          About Us
                       <span className="absolute left-0 bottom-0 w-0 group-hover:w-full h-[2px] bg-rose-600 transition-all" />
@@ -397,38 +336,11 @@ const navbar = () => {
                         <button
                         style={{ fontFamily: 'Poppins' }}
                           onClick={() => setContactUsShowModal(true)}
-                          className="relative px-3 py-2 text-xl font-bold transition rounded-md text-rose-600 group hover:text-rose-400"
+                          className="relative px-3 py-2 text-xl font-bold transition rounded-md text-gray-600 group hover:text-rose-400"
                         >
                         Contact Us
                       <span className="absolute left-0 bottom-0 w-0 group-hover:w-full h-[2px] bg-rose-600 transition-all" />
                       </button>
-                      {/* <motion.a
-                        whileHover="hover"
-                        variants={linkVariants}
-                        onClick={() => navigate('/')}
-                        className="cursor-pointer bg-gray-500 rounded-md bg-# px-3 py-2 text-sm font-medium text-white hover:bg-[#8b95ab] hover:text-white transition-colors"
-                        style={{ position: "relative", zIndex: 1 }}
-                      >
-                        Home
-                      </motion.a>
-                      <motion.a
-                        whileHover="hover"
-                        variants={linkVariants}
-                        onClick={() => setAboutUsShowModal(true)}
-                        className="cursor-pointer rounded-md bg-gray-500 px-3 py-2 text-sm font-medium text-white hover:bg-[#2563eb] hover:text-white transition-colors"
-                        style={{ position: "relative", zIndex: 1 }}
-                      >
-                        About Us
-                      </motion.a>
-                      <motion.a
-                        whileHover="hover"
-                        variants={linkVariants}
-                        onClick={() => setContactUsShowModal(true)}
-                        className="cursor-pointer rounded-md bg-gray-500 px-3 py-2 text-sm font-medium text-white hover:bg-[#2563eb] hover:text-white transition-colors"
-                        style={{ position: "relative", zIndex: 1 }}
-                      >
-                        Contact Us
-                      </motion.a> */}
                     </div>
                   </div>
                 </div>
@@ -443,7 +355,7 @@ const navbar = () => {
                   animate={{ height: "auto", opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
                   transition={{ duration: 0.4, ease: "easeInOut" }}
-                  className="sm:hidden bg-gray-900/95"
+                  className="sm:hidden bg-gray-100/95"
                   id="mobile-menu"
                 >
                   <div className="px-2 pt-2 pb-3 space-y-1">
@@ -472,30 +384,6 @@ const navbar = () => {
                         Contact Us
                       <span className="absolute left-0 bottom-0 w-0 group-hover:w-full h-[2px] bg-[#2563eb] transition-all" />
                       </button>
-                    {/* <motion.a
-                      whileHover="hover"
-                      variants={linkVariants}
-                      onClick={() => { setIsMenuOpen(false); navigate('/'); }}
-                      className="cursor-pointer block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white hover:bg-[#2563eb] hover:text-white transition-colors"
-                    >
-                      Home
-                    </motion.a>
-                    <motion.a
-                      whileHover="hover"
-                      variants={linkVariants}
-                      onClick={() => { setIsMenuOpen(false); setAboutUsShowModal(true); }}
-                      className="cursor-pointer block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white hover:bg-[#2563eb] hover:text-white transition-colors"
-                    >
-                      About Us
-                    </motion.a>
-                    <motion.a
-                      whileHover="hover"
-                      variants={linkVariants}
-                      onClick={() => { setIsMenuOpen(false); setContactUsShowModal(true); }}
-                      className="cursor-pointer block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white hover:bg-[#2563eb] hover:text-white transition-colors"
-                    >
-                      Contact Us
-                    </motion.a> */}
                   </div>
                 </motion.div>
               )}
@@ -514,4 +402,4 @@ const navbar = () => {
   );
 };
 
-export default navbar;
+export default Navbar;

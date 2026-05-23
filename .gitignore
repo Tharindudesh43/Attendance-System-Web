@@ -1,2 +1,12 @@
+# Environment Variables
 Backend/.env
 Frontend/.env
+
+# Also cover any nested .env variants
+Backend/.env.local
+Backend/.env.development
+Backend/.env.production
+
+Frontend/.env.local
+Frontend/.env.development
+Frontend/.env.production

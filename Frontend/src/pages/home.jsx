@@ -2,7 +2,6 @@ import React from "react";
 import Header from "../components/header";
 import Footer from "../components/footer";
 import { useNavigate } from "react-router-dom";
-import { useContextData } from "../ReloadContext.jsx";
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import { green, pink, purple } from "@mui/material/colors";

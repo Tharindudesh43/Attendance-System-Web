@@ -1,20 +1,19 @@
 import './App.css'
 import { Route, Routes } from 'react-router-dom'
-import Home from './pages/home';
-import Admin from './pages/admin';
-import Lecture from './pages/lecturer';
-import LecturerQRGen from './pages/Lecturerqrgen';
-import LectureLogin from './pages/lec_login';
-import AdminLogin from './pages/admin_login';
-import AdminSubject from './pages/admin_subject';
+import Admin from './pages/Admin/Admin_Panel.jsx';
+import Lecture from './pages/Lecturer/lecturer.jsx';
+import LecturerQRGen from './pages/Lecturer/Lecturerqrgen.jsx';
+import LectureLogin from './pages/Lecturer/lec_login.jsx';
+import AdminLogin from './pages/Admin/admin_login.jsx';
+import AdminSubject from './pages/Admin/admin_subject';
 import Subjectsdetails from './pages/subjectsdetails';
-import LecturerAttendence from './pages/lecAttendance';
+import LecturerAttendence from './pages/Lecturer/lecAttendance.jsx';
 import LandingPage from './pages/LandingPage';
-import AttendanceHistory from './pages/Lecturer_Attendance_History';
+import AttendanceHistory from './pages/Lecturer/Lecturer_Attendance_History.jsx';
 import {ReloadProvider } from './ReloadContext'
-import AttHistoryData from './pages/Att_History_data';
-import LecAttAnalysis from './pages/Lec_Att_Analysis';
-import SendNotification from './pages/send_notifications';
+import AttHistoryData from './pages/Lecturer/Att_History_data.jsx';
+import LecAttAnalysis from './pages/Lecturer/Lec_Att_Analysis.jsx';
+import SendNotification from './pages/Lecturer/send_notifications';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 function App() {

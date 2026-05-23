@@ -18,7 +18,6 @@ const Lecturer_modal = ({
         onClick={(e) => e.stopPropagation()}
         className="relative w-full max-w-lg p-6 bg-white shadow-2xl rounded-2xl animate-fadeIn"
       >
-        {/* Close Button */}
         <button
           onClick={onClose}
           type="button"
@@ -28,7 +27,6 @@ const Lecturer_modal = ({
           ✕
         </button>
 
-        {/* Header: Profile Image and Name/Email */}
         <div className="flex items-center gap-6 mb-6">
           {image && (
             <img
@@ -46,7 +44,6 @@ const Lecturer_modal = ({
           </div>
         </div>
 
-        {/* Additional Details */}
         <div className="grid grid-cols-2 gap-4 text-sm">
           <div>
             <p className="font-semibold text-gray-700">Contact Number:</p>

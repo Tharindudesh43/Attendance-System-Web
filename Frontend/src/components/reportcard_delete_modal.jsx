@@ -63,70 +63,268 @@ const ReportCardDeleteModal = ({ reportId, reportimages,userId,onClose}) => {
     }
 
   return (
-            <div 
-                class="fixed inset-0 p-4 flex flex-wrap justify-center items-center w-full h-100 z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto">
-                <div class="w-full max-w-lg bg-white shadow-lg rounded-lg p-6 relative">
-                    <svg id="closeIcon" xmlns="http://www.w3.org/2000/svg" onClick={onClose}
-                        class="w-3.5 h-3.5 cursor-pointer shrink-0 fill-gray-400 hover:fill-red-500 float-right"
-                        viewBox="0 0 320.591 320.591">
-                        <path
-                            d="M30.391 318.583a30.37 30.37 0 0 1-21.56-7.288c-11.774-11.844-11.774-30.973 0-42.817L266.643 10.665c12.246-11.459 31.462-10.822 42.921 1.424 10.362 11.074 10.966 28.095 1.414 39.875L51.647 311.295a30.366 30.366 0 0 1-21.256 7.288z"
-                            data-original="#000000"></path>
-                        <path
-                            d="M287.9 318.583a30.37 30.37 0 0 1-21.257-8.806L8.83 51.963C-2.078 39.225-.595 20.055 12.143 9.146c11.369-9.736 28.136-9.736 39.504 0l259.331 257.813c12.243 11.462 12.876 30.679 1.414 42.922-.456.487-.927.958-1.414 1.414a30.368 30.368 0 0 1-23.078 7.288z"
-                            data-original="#000000"></path>
-                    </svg>
-    
-                    <div  class="my-6 text-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 fill-red-500 inline" viewBox="0 0 24 24">
-                            <path
-                                d="M19 7a1 1 0 0 0-1 1v11.191A1.92 1.92 0 0 1 15.99 21H8.01A1.92 1.92 0 0 1 6 19.191V8a1 1 0 0 0-2 0v11.191A3.918 3.918 0 0 0 8.01 23h7.98A3.918 3.918 0 0 0 20 19.191V8a1 1 0 0 0-1-1Zm1-3h-4V2a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v2H4a1 1 0 0 0 0 2h16a1 1 0 0 0 0-2ZM10 4V3h4v1Z"
-                                data-original="#000000" />
-                            <path d="M11 17v-7a1 1 0 0 0-2 0v7a1 1 0 0 0 2 0Zm4 0v-7a1 1 0 0 0-2 0v7a1 1 0 0 0 2 0Z"
-                                data-original="#000000" />
-                        </svg>
-                        <h4 class="text-slate-900  text-base font-medium mt-4">Are you sure you want to delete this item? 
-      
-                        </h4>
-    
-                        <div class="text-center space-x-4 mt-10">
-                            <button id="closeButton" type="button" onClick={onClose}
-                                class="px-5 py-2.5 cursor-pointer rounded-lg text-slate-900 text-sm font-medium bg-gray-200 hover:bg-gray-300 active:bg-gray-200">No,
-                                Cancel</button>
-                           
-                                <button
-                                 type="button"
-                                onClick={reportcarddelete}
-                                 className="px-5 cursor-pointer py-2.5 rounded-lg text-white text-sm font-medium bg-red-600 hover:bg-red-700 active:bg-red-600"
-                                 disabled={isDeleting}>
-                                   {isDeleting ? (
-                                      <div className="flex items-center justify-center">
-                                       <svg
-                                         className="w-5 h-5 text-white animate-spin"
-                                        viewBox="0 0 24 24">
-                                         <circle
-                                           className="opacity-25"
-                                            cx="12"
-                                            cy="12"
-                                            r="10"
-                                            stroke="currentColor"
-                                            strokeWidth="4"
-                                          ></circle>
-                                         <path
-                                            className="opacity-75"
-                                           fill="currentColor"
-                                            d="M4 12a8 8 0 018-8v8H4z"
-                                          ></path>
-                                        </svg>
-                                      </div>
-                                  ) : (
-                                      "Yes, Delete"
-                                  )}
-                                </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <div
+      style={{
+        position: "fixed",
+        inset: 0,
+        zIndex: 1000,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "1rem",
+        background: "rgba(15,23,42,.6)",
+        backdropFilter: "blur(4px)",
+        fontFamily: "'Nunito', sans-serif",
+      }}
+    >
+      <link
+        href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+      />
+      <style>{`
+      @keyframes modalIn { from { opacity:0; transform:scale(.95) translateY(10px); } to { opacity:1; transform:scale(1) translateY(0); } }
+      .del-modal { animation: modalIn .22s cubic-bezier(.22,1,.36,1) forwards; }
+      .del-cancel-btn { transition: background .18s ease; }
+      .del-cancel-btn:hover { background: #f1f5f9 !important; }
+      .del-confirm-btn { transition: background .18s ease, transform .18s ease, box-shadow .18s ease; }
+      .del-confirm-btn:hover:not(:disabled) { background: #b91c1c !important; transform: translateY(-1px); box-shadow: 0 6px 18px rgba(185,28,28,.35) !important; }
+      .del-confirm-btn:disabled { opacity: .7; cursor: not-allowed; }
+    `}</style>
+
+      <div
+        className="del-modal"
+        style={{
+          width: "100%",
+          maxWidth: "420px",
+          background: "white",
+          borderRadius: 20,
+          boxShadow: "0 24px 64px rgba(15,23,42,.25)",
+          border: "1.5px solid #e2e8f0",
+          overflow: "hidden",
+          position: "relative",
+        }}
+      >
+        <button
+          onClick={onClose}
+          style={{
+            position: "absolute",
+            top: 14,
+            right: 14,
+            width: 32,
+            height: 32,
+            borderRadius: 9,
+            background: "#f8faff",
+            border: "1.5px solid #e2e8f0",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            cursor: "pointer",
+            transition: "background .18s ease, border-color .18s ease",
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = "#fff1f2";
+            e.currentTarget.style.borderColor = "#fecdd3";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = "#f8faff";
+            e.currentTarget.style.borderColor = "#e2e8f0";
+          }}
+        >
+          <svg
+            width="12"
+            height="12"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#94a3b8"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+          >
+            <path d="M18 6L6 18M6 6l12 12" />
+          </svg>
+        </button>
+
+        {/* <div style={{ height: 5, background: "linear-gradient(90deg, #dc2626, #ef4444)" }} /> */}
+
+        <div style={{ padding: "32px 28px 28px", textAlign: "center" }}>
+          <div
+            style={{
+              width: 68,
+              height: 68,
+              borderRadius: "50%",
+              background: "#fff1f2",
+              border: "2px solid #fecdd3",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              margin: "0 auto 20px",
+            }}
+          >
+            <svg
+              width="30"
+              height="30"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#dc2626"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6M10 11v6M14 11v6" />
+            </svg>
+          </div>
+
+          <h4
+            style={{
+              fontSize: 17,
+              fontWeight: 800,
+              color: "#0f172a",
+              margin: "0 0 8px",
+              letterSpacing: "-0.01em",
+            }}
+          >
+            Delete Report Card?
+          </h4>
+          <p
+            style={{
+              fontSize: 13,
+              color: "#64748b",
+              margin: "0 0 6px",
+              lineHeight: 1.6,
+            }}
+          >
+            This action cannot be undone. You are about to permanently delete:
+          </p>
+
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 9,
+              background: "#fffbeb",
+              border: "1.5px solid #fde68a",
+              borderRadius: 10,
+              padding: "10px 14px",
+              margin: "20px 0 24px",
+              textAlign: "left",
+            }}
+          >
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#b45309"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              style={{ flexShrink: 0 }}
+            >
+              <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0zM12 9v4M12 17h.01" />
+            </svg>
+            <span
+              style={{
+                fontSize: 12,
+                color: "#92400e",
+                fontWeight: 600,
+                lineHeight: 1.5,
+              }}
+            >
+              All associated data will be removed.
+            </span>
+          </div>
+
+          <div style={{ display: "flex", gap: 10 }}>
+            <button
+              type="button"
+              onClick={onClose}
+              className="del-cancel-btn"
+              style={{
+                flex: 1,
+                padding: "12px",
+                borderRadius: 11,
+                background: "#f8faff",
+                color: "#475569",
+                border: "1.5px solid #e2e8f0",
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 700,
+                fontFamily: "'Nunito',sans-serif",
+              }}
+            >
+              No, Cancel
+            </button>
+
+            <button
+              type="button"
+              onClick={reportcarddelete}
+              disabled={isDeleting}
+              className="del-confirm-btn"
+              style={{
+                flex: 1,
+                padding: "12px",
+                borderRadius: 11,
+                background: "#dc2626",
+                color: "white",
+                border: "none",
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 700,
+                fontFamily: "'Nunito',sans-serif",
+                boxShadow: "0 4px 16px rgba(220,38,38,.3)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 7,
+              }}
+            >
+              {isDeleting ? (
+                <>
+                  <svg
+                    style={{ animation: "spin .7s linear infinite" }}
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                  >
+                    <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="rgba(255,255,255,.3)"
+                      strokeWidth="3"
+                    />
+                    <path
+                      d="M12 2a10 10 0 0110 10"
+                      stroke="white"
+                      strokeWidth="3"
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                  Deleting…
+                </>
+              ) : (
+                <>
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="white"
+                    strokeWidth="2.2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6" />
+                  </svg>
+                  Yes, Delete
+                </>
+              )}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 

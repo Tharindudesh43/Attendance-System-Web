@@ -14,7 +14,6 @@ const app = express();
 //MongoDB Connection URL
 const MongoURL = process.env.MONGODB_URL;
 
-//Load service account with ESM-friendly way
 adminfirebase.initializeApp({
   credential: adminfirebase.credential.cert({
     projectId: process.env.FIREBASE_PROJECT_ID,

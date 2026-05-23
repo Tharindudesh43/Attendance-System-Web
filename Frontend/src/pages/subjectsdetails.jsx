@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useContextData } from "../ReloadContext.jsx";
 import axios from "axios";
 import DeleteSubjectConfirmModal from "../components/SubjectDelete_modal.jsx";
-import loadingimage from "../assets/load_img1.svg";
+import loadingimage from "../../public/assets/load_img1.svg";
 
 const SubjectsDetails = () => {
   const { reload, setReload } = useContextData();
@@ -123,7 +123,6 @@ const SubjectsDetails = () => {
             ) : (
               <tbody class="whitespace-nowrap">
                 {allsubjects.map((subjectSet, index) =>
-                  // Each subjectSet contains an array of subjects, so map through them
                   subjectSet.map((subjectDetails, subIndex) => (
                     <tr
                       key={`${index}-${subIndex}`}

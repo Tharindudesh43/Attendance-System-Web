@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import anonymousimage from "../assets/anonymous.png";
-import userimage from "../assets/user.png";
+import anonymousimage from "../../public/assets/anonymous.png";
+import userimage from "../../public/assets/user.png";
 import axios from "axios";
 import { useEffect } from "react";
 import { useContextData } from "../ReloadContext.jsx";
@@ -106,56 +106,102 @@ const Report_card = ({
     }
   }
 
-  return (
-    <div className="relative flex flex-row w-full max-w-full mx-auto overflow-hidden transition-all duration-300 bg-gray-700 shadow-lg rounded-2xl hover:shadow-2xl">
-      <div className="flex flex-col items-center justify-center w-40 gap-1 p-3 bg-gray-800">
+return (
+  <>
+    <style>{`
+      .rcard-wrap {
+        display: flex; flex-direction: row; width: 100%;
+        background: white; border-radius: 16px;
+        border: 1.5px solid #e2e8f0;
+        box-shadow: 0 2px 16px rgba(30,64,175,.07);
+        overflow: hidden; font-family: 'Nunito', sans-serif;
+        transition: transform .22s ease, box-shadow .22s ease;
+      }
+      .rcard-wrap:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 32px rgba(30,64,175,.14);
+      }
+      .rcard-action-btn {
+        display: flex; align-items: center; justify-content: center;
+        width: 34px; height: 34px; border-radius: 9px; border: none;
+        cursor: pointer; transition: opacity .18s ease, transform .18s ease;
+        flex-shrink: 0;
+      }
+      .rcard-action-btn:hover { opacity: .82; transform: translateY(-1px); }
+      .rcard-status-btn {
+        display: flex; align-items: center; justify-content: center;
+        width: 36px; height: 36px; border-radius: 10px; border: 1.5px solid transparent;
+        cursor: pointer; transition: all .18s ease; flex-shrink: 0;
+      }
+      .rcard-status-btn:hover { transform: translateY(-1px); }
+      .rcard-img-thumb {
+        width: 46px; height: 46px; border-radius: 9px; object-fit: cover;
+        border: 1.5px solid #dbeafe; cursor: pointer;
+        transition: transform .18s ease, box-shadow .18s ease;
+        flex-shrink: 0;
+      }
+      .rcard-img-thumb:hover { transform: scale(1.07); box-shadow: 0 4px 14px rgba(30,64,175,.18); }
+    `}</style>
+
+    <div className="rcard-wrap">
+
+      <div style={{ width: 120, flexShrink: 0, background: "linear-gradient(170deg, #1e3a8a 0%, #1e40af 60%, #2563eb 100%)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 6, padding: "16px 10px", position: "relative", overflow: "hidden" }}>
+        <div style={{ position: "absolute", top: -20, right: -20, width: 80, height: 80, borderRadius: "50%", background: "rgba(255,255,255,.07)" }} />
+        <div style={{ position: "absolute", bottom: -16, left: -16, width: 60, height: 60, borderRadius: "50%", background: "rgba(255,255,255,.05)" }} />
+
         <img
           src={user === "Anonymous" ? anonymousimage : userimage}
           alt="Reporter"
-          className="object-cover w-10 h-10 border-2 border-white rounded-full shadow-md"
+          style={{ width: 44, height: 44, borderRadius: "50%", objectFit: "cover", border: "2.5px solid rgba(255,255,255,.8)", boxShadow: "0 3px 12px rgba(0,0,0,.25)", position: "relative", zIndex: 1 }}
         />
-        <span className="mt-2 text-xs font-bold text-center text-white">
+
+        <span style={{ fontSize: 11, fontWeight: 800, color: "white", textAlign: "center", lineHeight: 1.3, position: "relative", zIndex: 1, wordBreak: "break-word" }}>
           {user === "Anonymous" ? "Anonymous" : user}
         </span>
-        <span className="px-2 py-1 mt-1 text-xs font-semibold text-white bg-blue-600 rounded-full">
+
+        <span style={{ fontSize: 10, fontWeight: 700, padding: "3px 8px", borderRadius: 100, background: "rgba(255,255,255,.18)", color: "white", position: "relative", zIndex: 1, textAlign: "center" }}>
           {reportType}
         </span>
-        <span className="mt-1 text-xs text-center text-gray-300">
-          {date}
-          <br />
-          {time}
+
+        <span style={{ fontSize: 10, color: "rgba(255,255,255,.65)", textAlign: "center", lineHeight: 1.5, position: "relative", zIndex: 1 }}>
+          {date}<br />{time}
         </span>
-        <span
-          className={`mt-1 px-2 py-1 text-xs font-semibold rounded-full ${statusStyles[statuspassed]}`}
-        >
+
+        <span style={{
+          fontSize: 10, fontWeight: 700, padding: "3px 10px", borderRadius: 100, position: "relative", zIndex: 1, textAlign: "center",
+          ...(statuspassed?.toLowerCase() === "not watched"  ? { background: "#fff1f2", color: "#be123c" } :
+             statuspassed?.toLowerCase() === "watching"     ? { background: "#fffbeb", color: "#b45309" } :
+             statuspassed?.toLowerCase() === "mark as done" ? { background: "#dcfce7", color: "#15803d" } :
+                                           { background: "rgba(255,255,255,.15)", color: "white" })
+        }}>
           {statuspassed}
         </span>
       </div>
 
-      <div className="flex flex-col justify-between flex-1 px-6 py-3 w-64">
+      <div style={{ flex: 1, padding: "14px 16px", display: "flex", flexDirection: "column", justifyContent: "space-between", minWidth: 0 }}>
         <div>
-          {/* Title */}
-          <h3 className="mb-2 text-sm font-extrabold text-left text-white line-clamp-1">
+          <h3 style={{ fontSize: 13, fontWeight: 800, color: "#0f172a", margin: "0 0 8px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
             {reportTitle}
           </h3>
 
           <button
-            className="mt-1 mb-1 pt-1 pb-1 pl-2 pr-2 text-green-600 transition-all duration-200 bg-green-100 text-xs rounded-full shadow-md hover:bg-green-200 hover:scale-105"
-            title="Info"
             onClick={() => setReportInfoShowModal(true)}
+            style={{ display: "inline-flex", alignItems: "center", gap: 5, fontSize: 11, fontWeight: 700, padding: "4px 11px", borderRadius: 100, background: "#f0fdf4", color: "#15803d", border: "1.5px solid #bbf7d0", cursor: "pointer", marginBottom: 10, transition: "background .18s" }}
           >
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/>
+            </svg>
             Info
           </button>
 
-          {/* Images */}
           {reportImages && reportImages.length > 0 && (
-            <div className="flex gap-1 mb-1 mt-2">
+            <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
               {reportImages.map((img, idx) => (
                 <img
                   key={idx}
                   src={img}
                   alt={`Report Image ${idx + 1}`}
-                  className="object-cover border-2 border-gray-400 rounded-lg cursor-pointer h-11 w-11"
+                  className="rcard-img-thumb"
                   onClick={() => setPreviewImage(img)}
                 />
               ))}
@@ -163,79 +209,94 @@ const Report_card = ({
           )}
         </div>
 
-        <div className="flex gap-3 mt-3">
+        <div style={{ display: "flex", gap: 8, marginTop: 12 }}>
           <button
-            className="pt-2 pb-2 pl-3 pr-3 text-red-600 transition-all duration-200 bg-red-100 rounded-full shadow-md hover:bg-red-200 hover:scale-105"
+            className="rcard-action-btn"
             title="Delete"
             onClick={() => setDeleteConfirmShowModal(true)}
+            style={{ background: "#fff1f2", border: "1.5px solid #fecdd3" }}
           >
-            <i className="fas fa-trash-alt"></i>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#be123c" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/>
+            </svg>
           </button>
         </div>
       </div>
 
-      <div className="flex flex-col items-center justify-center gap-3 px-3 py-2">
-        {statusIcons.map((stat) => (
-          <button
-            key={stat.name}
-            onClick={() => changereport_Status(stat.name)}
-            className={`p-2 rounded-full shadow-md transition-all duration-200
-              ${stat.bg} ${stat.hover}
-              ${
-                statuspassed === stat.name
-                  ? stat.color +
-                    " ring-2 ring-offset-2 ring-" +
-                    stat.color.split("-")[1] +
-                    "-400"
-                  : "opacity-80"
-              }
-            `}
-            title={stat.name}
-          >
-            <i className={stat.icon + " text-lg"}></i>
-          </button>
-        ))}
-      </div>
-
-      {/* Modals */}
-      {DeleteConfirmShowModal && (
-        <ReportDeleteConfirm
-          userId={user_id}
-          reportimages={reportImages}
-          reportId={reportId}
-          onClose={() => setDeleteConfirmShowModal(false)}
-        />
-      )}
-      {ReportInfoShowModal && (
-        <ReportInfoModal
-          reportDescription={reportDescription}
-          onClose={() => setReportInfoShowModal(false)}
-        />
-      )}
-      {previewImage && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80"
-          onClick={() => setPreviewImage(null)}
-        >
-          <div className="relative">
-            <img
-              src={previewImage}
-              alt="Full Preview"
-              className="max-w-[90vw] max-h-[90vh] rounded-lg shadow-2xl"
-              onClick={(e) => e.stopPropagation()}
-            />
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 8, padding: "12px 10px", borderLeft: "1.5px solid #f1f5f9", background: "#f8faff" }}>
+        {statusIcons.map((stat) => {
+          const isActive = statuspassed?.toLowerCase() === stat.name?.toLowerCase();
+          return (
             <button
-              className="absolute p-3 bg-white rounded-full shadow top-4 right-4 hover:bg-gray-200"
-              onClick={() => setPreviewImage(null)}
-              aria-label="Close Preview"
+              key={stat.name}
+              className="rcard-status-btn"
+              onClick={() => changereport_Status(stat.name)}
+              title={stat.name}
+              style={{
+                background: isActive ? (
+                  stat.name?.toLowerCase() === "not watched"  ? "#fff1f2" :
+                  stat.name?.toLowerCase() === "watching"     ? "#fffbeb" :
+                  stat.name?.toLowerCase() === "mark as done" ? "#dcfce7" : "#f1f5f9"
+                ) : "white",
+                borderColor: isActive ? (
+                  stat.name?.toLowerCase() === "not watched"  ? "#fecdd3" :
+                  stat.name?.toLowerCase() === "watching"     ? "#fde68a" :
+                  stat.name?.toLowerCase() === "mark as done" ? "#bbf7d0" : "#e2e8f0"
+                ) : "#e2e8f0",
+                boxShadow: isActive ? "0 2px 10px rgba(30,64,175,.12)" : "none",
+              }}
             >
-              ✕
+              <i className={stat.icon} style={{
+                fontSize: 14,
+                color: isActive ? (
+                  stat.name?.toLowerCase() === "not watched"  ? "#be123c" :
+                  stat.name?.toLowerCase() === "watching"     ? "#b45309" :
+                  stat.name?.toLowerCase() === "mark as done" ? "#15803d" : "#475569"
+                ) : "#94a3b8"
+              }} />
             </button>
-          </div>
-        </div>
-      )}
+          );
+        })}
+      </div>
     </div>
-  );
+
+    {DeleteConfirmShowModal && (
+      <ReportDeleteConfirm
+        userId={user_id}
+        reportimages={reportImages}
+        reportId={reportId}
+        onClose={() => setDeleteConfirmShowModal(false)}
+      />
+    )}
+    {ReportInfoShowModal && (
+      <ReportInfoModal
+        reportDescription={reportDescription}
+        onClose={() => setReportInfoShowModal(false)}
+      />
+    )}
+    {previewImage && (
+      <div
+        onClick={() => setPreviewImage(null)}
+        style={{ position: "fixed", inset: 0, zIndex: 50, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(15,23,42,.85)", backdropFilter: "blur(4px)" }}
+      >
+        <div style={{ position: "relative" }} onClick={(e) => e.stopPropagation()}>
+          <img
+            src={previewImage}
+            alt="Full Preview"
+            style={{ maxWidth: "90vw", maxHeight: "90vh", borderRadius: 14, boxShadow: "0 24px 64px rgba(0,0,0,.5)" }}
+          />
+          <button
+            onClick={() => setPreviewImage(null)}
+            style={{ position: "absolute", top: 12, right: 12, width: 34, height: 34, borderRadius: "50%", background: "white", border: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 4px 14px rgba(0,0,0,.25)", fontSize: 14, color: "#475569", fontWeight: 700 }}
+            aria-label="Close Preview"
+          >
+            ✕
+          </button>
+        </div>
+      </div>
+    )}
+  </>
+);
 };
 
 export default Report_card;

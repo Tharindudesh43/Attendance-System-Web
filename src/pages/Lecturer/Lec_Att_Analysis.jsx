@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/header";
 import { useParams } from "react-router-dom";
@@ -105,6 +105,7 @@ const styles = {
     paddingBottom: "12px",
     scrollbarWidth: "thin",
     scrollbarColor: "#c7d2fe transparent",
+    WebkitOverflowScrolling: "touch",
   },
   lectureCard: {
     minWidth: "230px",
@@ -188,6 +189,7 @@ const styles = {
     padding: "22px 20px 14px",
     boxShadow: "0 2px 16px rgba(30,58,138,0.08)",
     border: "1px solid #e0e7ff",
+    minWidth: 0, // allow grid/flex children to shrink below content size
   },
   chartCardAccent: (color) => ({
     borderTop: `3px solid ${color}`,
@@ -218,6 +220,7 @@ const styles = {
     boxShadow: "0 2px 16px rgba(30,58,138,0.08)",
     border: "1px solid #e0e7ff",
     borderTop: "3px solid #2563eb",
+    minWidth: 0,
   },
 
   stateBox: {
@@ -258,18 +261,57 @@ if (typeof document !== "undefined") {
       @keyframes spin { to { transform: rotate(360deg); } }
       .__lec-card:hover { transform: translateY(-3px) !important; box-shadow: 0 8px 28px rgba(30,58,138,0.13) !important; }
       .__back-btn:hover { background: rgba(255,255,255,0.2) !important; }
+
+      /* ── Responsive tweaks (mobile-first, same theme/colors) ── */
+      @media (max-width: 640px) {
+        .__lec-hero-inner { flex-direction: column !important; padding: 16px 16px 18px !important; gap: 10px !important; }
+        .__back-btn { position: static !important; align-self: flex-start !important; }
+        .__lec-strip { padding: 18px 16px 6px !important; }
+        .__lec-charts-section { padding: 6px 16px 20px !important; }
+        .__lec-chart-card { padding: 16px 14px 12px !important; }
+        .__lec-wide-card { padding: 16px 14px 14px !important; }
+        .__lec-card { min-width: 200px !important; max-width: 200px !important; padding: 14px 14px 12px !important; }
+        .__lec-charts-grid { grid-template-columns: 1fr !important; gap: 14px !important; }
+      }
+
+      @media (max-width: 400px) {
+        .__lec-card { min-width: 175px !important; max-width: 175px !important; }
+      }
     `;
     document.head.appendChild(s);
   }
 }
 
+const useContainerWidth = (fallback) => {
+  const ref = useRef(null);
+  const [width, setWidth] = useState(fallback);
+
+  useEffect(() => {
+    if (!ref.current || typeof ResizeObserver === "undefined") return;
+    const el = ref.current;
+    const observer = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        const w = Math.floor(entry.contentRect.width);
+        if (w > 0) setWidth(w);
+      }
+    });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  return [ref, width];
+};
 
 const SectionLabel = ({ children }) => (
   <p style={styles.sectionLabel}>{children}</p>
 );
 
-const ChartCard = ({ title, subtitle, accentColor, children }) => (
-  <div style={{ ...styles.chartCard, ...styles.chartCardAccent(accentColor) }}>
+const ChartCard = ({ title, subtitle, accentColor, innerRef, children }) => (
+  <div
+    ref={innerRef}
+    className="__lec-chart-card"
+    style={{ ...styles.chartCard, ...styles.chartCardAccent(accentColor) }}
+  >
     <p style={styles.chartTitle}>{title}</p>
     <p style={styles.chartSubtitle}>{subtitle}</p>
     <div style={styles.chartDivider} />
@@ -294,7 +336,6 @@ const ErrorState = ({ message = "Failed to load data" }) => (
   </div>
 );
 
-
 const LecAttAnalysis = () => {
   const navigate = useNavigate();
   const [pieChartLoader, setPieChartLoader] = React.useState(false);
@@ -312,6 +353,23 @@ const LecAttAnalysis = () => {
   const { id } = useParams();
 
   const handlebackbutton = () => navigate(`/lecturer`);
+
+
+  const [pieRef, pieWidth] = useContainerWidth(300);
+  const [lineRef, lineWidth] = useContainerWidth(340);
+  const [barRef, barWidth] = useContainerWidth(300);
+  const [wideRef, wideWidth] = useContainerWidth(700);
+
+  const CARD_H_PADDING = 40; 
+  const WIDE_H_PADDING = 48; 
+
+  const pieChartWidth = Math.max(220, pieWidth - CARD_H_PADDING);
+  const lineChartWidth = Math.max(220, lineWidth - CARD_H_PADDING);
+  const barChartWidth = Math.max(220, barWidth - CARD_H_PADDING);
+  const wideChartWidth = Math.max(260, wideWidth - WIDE_H_PADDING);
+
+  const chartHeight = pieChartWidth < 260 ? 190 : 210;
+  const wideChartHeight = wideChartWidth < 400 ? 190 : 220;
 
   useEffect(() => {
     handlepiechartload();
@@ -371,7 +429,7 @@ const LecAttAnalysis = () => {
       <div style={styles.hero}>
         <div style={styles.heroDecor} />
         <div style={styles.heroDecor2} />
-        <div style={styles.heroInner}>
+        <div className="__lec-hero-inner" style={styles.heroInner}>
           <button
             className="__back-btn"
             style={styles.backBtn}
@@ -393,7 +451,7 @@ const LecAttAnalysis = () => {
         </div>
       </div>
 
-      <div style={styles.lectureStrip}>
+      <div className="__lec-strip" style={styles.lectureStrip}>
         <SectionLabel>📚 Subject Progress</SectionLabel>
 
         {remaininglecturecount ? (
@@ -435,12 +493,13 @@ const LecAttAnalysis = () => {
         )}
       </div>
 
-      <div style={styles.chartsSection}>
+      <div className="__lec-charts-section" style={styles.chartsSection}>
         <SectionLabel>📊 Analytics Overview</SectionLabel>
 
-        <div style={styles.chartsGrid}>
+        <div className="__lec-charts-grid" style={styles.chartsGrid}>
 
           <ChartCard
+            innerRef={pieRef}
             title="Students by Year"
             subtitle="Enrollment distribution across academic years"
             accentColor="#2563eb"
@@ -465,13 +524,14 @@ const LecAttAnalysis = () => {
                   },
                 ]}
                 colors={["#1d4ed8", "#3b82f6", "#60a5fa", "#bfdbfe"]}
-                width={300}
-                height={210}
+                width={pieChartWidth}
+                height={chartHeight}
               />
             )}
           </ChartCard>
 
           <ChartCard
+            innerRef={lineRef}
             title="Yearly Attendance Trend"
             subtitle="Monthly attendance rate across the academic year"
             accentColor="#0891b2"
@@ -488,12 +548,13 @@ const LecAttAnalysis = () => {
               sx={{
                 "& .MuiAreaElement-root": { fill: "url(#lineGrad)", opacity: 0.2 },
               }}
-              width={340}
-              height={210}
+              width={lineChartWidth}
+              height={chartHeight}
             />
           </ChartCard>
 
           <ChartCard
+            innerRef={barRef}
             title="Monthly Attendance"
             subtitle="Headcount per month (Jan – Jun)"
             accentColor="#7c3aed"
@@ -505,13 +566,13 @@ const LecAttAnalysis = () => {
               }]}
               series={[{ data: [50,45,60,70,55,65], color: "#2563eb" }]}
               borderRadius={6}
-              width={300}
-              height={210}
+              width={barChartWidth}
+              height={chartHeight}
             />
           </ChartCard>
         </div>
 
-        <div style={styles.wideCard}>
+        <div ref={wideRef} className="__lec-wide-card" style={styles.wideCard}>
           <p style={styles.chartTitle}>Attendance by Day of Week</p>
           <p style={styles.chartSubtitle}>
             Average student attendance per weekday
@@ -527,8 +588,8 @@ const LecAttAnalysis = () => {
               color: "#1d4ed8",
             }]}
             borderRadius={6}
-            width={700}
-            height={220}
+            width={wideChartWidth}
+            height={wideChartHeight}
           />
         </div>
       </div>

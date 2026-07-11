@@ -656,12 +656,12 @@ const AdminSubject = () => {
               {findingDuplicateSubjects ? (
                 <div className="flex items-center justify-center col-span-full">
                   <img
-                    src="../../../../public/assets/search.gif"
+                    src="/assets/search.gif"
                     alt="Loading..."
                     className="w-20 h-20"
                   />
                   <img
-                    src="../../../../public/assets/findingdup_text.svg"
+                    src="/assets/findingdup_text.svg"
                     alt="Finding duplicates..."
                     className="w-40 h-30"
                   />
@@ -669,7 +669,7 @@ const AdminSubject = () => {
               ) : foundedduplicate ? (
                 <div className="flex items-center justify-center col-span-full">
                   <img
-                    src="../../../../public/assets/duplicated.gif"
+                    src="/assets/duplicated.gif"
                     alt="Duplicate text"
                     className="w-30 h-30"
                   />
@@ -680,7 +680,7 @@ const AdminSubject = () => {
               ) : savingsubject ? (
                 <div className="flex items-center justify-center col-span-full">
                   <img
-                    src="../../../../public/assets/saving.gif"
+                    src="/assets/saving.gif"
                     alt="Saving Subject"
                     className="w-20 h-20"
                   />
@@ -691,7 +691,7 @@ const AdminSubject = () => {
               ) : completed ? (
                 <div className="flex items-center justify-center ">
                   <img
-                    src="../../../../public/assets/completed.gif"
+                    src="/assets/completed.gif"
                     alt="Completed"
                     className="w-20 h-20"
                   />

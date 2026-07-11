@@ -181,7 +181,7 @@ return (
  
     {loadingimg1 ? (
       <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: 260 }}>
-        <img src="../../../../public/assets/load_img1.svg" alt="Loading..." style={{ width: 96, height: 96 }} />
+        <img src="/assets/load_img1.svg" alt="Loading..." style={{ width: 96, height: 96 }} />
       </div>
  
     ) : reportsData.length === 0 ? (

@@ -3,7 +3,7 @@ import Header from "../../components/header";
 import axios from "axios";
 import Footer from "../../components/footer";
 import React, { useEffect, useState } from "react";
-import loadingimage from "../../../public/assets/load_img1.svg";
+import loadingimage from "/assets/load_img1.svg";
 import { FileText } from "lucide-react";
 import { enqueueSnackbar } from "notistack";
 import Box from "@mui/material/Box";

@@ -8,8 +8,8 @@ import { styled } from "@mui/material/styles";
 import Collapse from "@mui/material/Collapse";
 import IconButton from "@mui/material/IconButton";
 import CardActions from "@mui/material/CardActions";
-import QRGenGif from "../../../../public/assets/QRGen.gif";
-import AtAnalisisGif from "../../../../public/assets/At_analisis.gif";
+import QRGenGif from "/assets/QRGen.gif";
+import AtAnalisisGif from "/assets/At_analisis.gif";
 
 const LecOption = ({ id, title, imageselection }) => {
   const ExpandMore = styled((props) => {

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import LectureCard from "../../../components/lec_card.jsx";
-import LoadingImg from "../../../../public/assets/load_img1.svg";
+import LoadingImg from "/assets/load_img1.svg";
 
 export default function ViewLectures() {
   const { reload, setReload } = useContextData();
@@ -62,7 +62,7 @@ return (
  
       {loadingimg1 ? (
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%", height: "260px" }}>
-          <img src="../../../../public/assets/load_img1.svg" alt="Loading..." style={{ width: "96px", height: "96px" }} />
+          <img src="/assets/load_img1.svg" alt="Loading..." style={{ width: "96px", height: "96px" }} />
         </div>
  
       ) : lecturerData.length === 0 ? (

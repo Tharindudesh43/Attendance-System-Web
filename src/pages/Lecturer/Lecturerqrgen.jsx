@@ -4,7 +4,7 @@ import Footer from "../../components/footer";
 import { useContextData } from "../../ReloadContext.jsx";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import loadingimage from "../../../public/assets/load_img1.svg";
+import loadingimage from "/assets/load_img1.svg";
 import QRCode from "react-qr-code";
 import { jwtDecode } from "jwt-decode";
 import { enqueueSnackbar } from "notistack";

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import anonymousimage from "../../public/assets/anonymous.png";
-import userimage from "../../public/assets/user.png";
+import anonymousimage from "/assets/anonymous.png";
+import userimage from "/assets/user.png";
 import axios from "axios";
 import { useEffect } from "react";
 import { useContextData } from "../ReloadContext.jsx";

@@ -4,7 +4,7 @@ import Footer from "../../components/footer.jsx";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { useContextData } from "../../ReloadContext.jsx";
-import loadingimage from "../../../public/assets/load_img1.svg";
+import loadingimage from "/assets/load_img1.svg";
 import LecSubjectDeleteModal from "../../components/Lec_subjectDelete_modal.jsx";
 
 const Lecturer_Attendance_History = () => {

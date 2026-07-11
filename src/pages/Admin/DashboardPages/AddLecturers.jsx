@@ -137,7 +137,7 @@ export default function AddLectures() {
 return [
   loadingimg2 ? (
     <div key="loading" style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%", height: "260px" }}>
-      <img src="../src/assets/load_img2.svg" alt="Loading..." style={{ width: "220px", height: "220px" }} />
+      <img src="/assets/load_img2.svg" alt="Loading..." style={{ width: "220px", height: "220px" }} />
     </div>
   ) : (
     <div key="add-lecturer-form" style={{ padding: "1.5rem 0" }}>

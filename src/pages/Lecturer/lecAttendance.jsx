@@ -110,7 +110,7 @@ function LecAttendance() {
     <PDFViewer style={styles.viewer}>
       <Document>
         <Page size="A4" style={styles.page}>
-           <Image src="/src/assets/Uni_Log.jpeg" style={styles.logo}/>
+           <Image src="/assets/Uni_Log.jpeg" style={styles.logo}/>
           <Text style={styles.title}>{department}</Text>
           <Text style={styles.title}>{faculty}</Text>
           <Text style={styles.subTitle}>{university}</Text>

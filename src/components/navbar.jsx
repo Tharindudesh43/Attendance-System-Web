@@ -10,7 +10,7 @@ import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
 import Admin from '@mui/icons-material/AdminPanelSettingsSharp';
 import { green } from '@mui/material/colors';
-import icon from '../../public/assets/NavIcon.png';
+import icon from '/assets/NavIcon.png';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

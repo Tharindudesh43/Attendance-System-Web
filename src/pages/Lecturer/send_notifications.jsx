@@ -260,7 +260,7 @@ return (
                       <tr>
                         <td colSpan="2" style={{ textAlign: "center", padding: "2rem" }}>
                           <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-                            <img src='../../../public//load_img1.svg' alt="Loading..." style={{ width: 72, height: 72 }} />
+                            <img src='/assets/load_img1.svg' alt="Loading..." style={{ width: 72, height: 72 }} />
                           </div>
                         </td>
                       </tr>

@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useContextData } from "../ReloadContext.jsx";
 import axios from "axios";
 import DeleteSubjectConfirmModal from "../components/SubjectDelete_modal.jsx";
-import loadingimage from "../../public/assets/load_img1.svg";
+import loadingimage from "/assets/load_img1.svg";
 
 const SubjectsDetails = () => {
   const { reload, setReload } = useContextData();

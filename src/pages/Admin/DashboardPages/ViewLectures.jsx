@@ -61,13 +61,13 @@ return (
     <div style={{ flex: 1, padding: "8px 4px", overflowY: "auto" }}>
  
       {loadingimg1 ? (
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%", height: "260px" }}>
+        <div  style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%", height: "260px" }}>
           <img src="/assets/load_img1.svg" alt="Loading..." style={{ width: "96px", height: "96px" }} />
         </div>
  
       ) : lecturerData.length === 0 ? (
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", width: "100%", height: "280px", gap: 14 }}>
-          <div style={{ width: 64, height: 64, borderRadius: "50%", background: "#eff6ff", border: "2px solid #dbeafe", display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <div style={{ width: 64, height: 64, borderRadius: "50%", background: "#ffffff", border: "2px solid #dbeafe", display: "flex", alignItems: "center", justifyContent: "center" }}>
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#93c5fd" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
               <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
               <circle cx="9" cy="7" r="4"/>

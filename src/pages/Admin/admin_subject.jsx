@@ -193,7 +193,7 @@ const AdminSubject = () => {
       const spaceBelow = windowHeight - rect.bottom;
 
       if (spaceBelow < 200) {
-        setDropdownPosition("up"); // Show dropdown above
+        setDropdownPosition("up");
       } else {
         setDropdownPosition("down");
       }
@@ -287,12 +287,12 @@ const AdminSubject = () => {
   };
 
   return (
-    <div class="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen">
       <Header />
-      <div className="relative w-full h-auto p-4">
+      <div className="relative w-full h-auto p-2 sm:p-4">
         <button
           onClick={handlebackbutton}
-          className="absolute top-0 left-0 flex items-center justify-center px-4 py-2 m-4 text-black bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:outline-none"
+          className="relative sm:absolute top-0 left-0 flex items-center justify-center px-3 py-2 sm:px-4 m-2 sm:m-4 text-black bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:outline-none"
         >
           <div className="grid items-center justify-center grid-cols-2">
             <div>
@@ -314,18 +314,18 @@ const AdminSubject = () => {
           </div>
         </button>
       </div>
-      <div className="flex items-center justify-center flex-grow">
-        <div className="grid items-center justify-center grid-cols-2 gap-10 p-5 md:grid-cols-2 min-h-">
-          <div className="grid w-full grid-rows-4 gap-y-9">
-            {/* Sem Version select */}
-            <div className="relative inline-block text-left w-flex">
+      <div className="flex items-center justify-center flex-grow px-3 sm:px-0">
+        <div className="grid items-center justify-center w-full max-w-5xl grid-cols-1 gap-8 p-2 sm:gap-10 sm:p-5 lg:grid-cols-2">
+          <div className="grid w-full grid-rows-4 gap-y-6 sm:gap-y-9 justify-items-center lg:justify-items-start">
+            <div className="relative inline-block w-full max-w-xs text-left sm:max-w-sm">
               <React.Fragment>
                 <ButtonGroup
                   variant="contained"
                   ref={SemesterversionDropdownRef}
                   aria-label="Button group with a nested menu"
+                  className="w-full"
                 >
-                  <Button className="flex items-center justify-between w-full px-4 py-2 text-white bg-blue-600 cursor-pointer hover:bg-blue-400 rounded-xl focus:outline-none">
+                  <Button className="flex items-center justify-between flex-1 px-3 py-2 text-sm text-white bg-blue-600 cursor-pointer sm:px-4 sm:text-base hover:bg-blue-400 rounded-xl focus:outline-none">
                     {selectedSemesterVersion}
                   </Button>
                   <Button
@@ -342,15 +342,15 @@ const AdminSubject = () => {
                   </Button>
                 </ButtonGroup>
                 <Popper
-                  sx={{ zIndex: 1 }}
+                  sx={{ zIndex: 1, width: "100%", maxWidth: "24rem" }}
                   open={isOpenSemVersion}
                   anchorEl={SemesterversionDropdownRef.current}
                   role={undefined}
-                  placement="bottom-start" // 👈 force always down
+                  placement="bottom-start"
                   modifiers={[
                     {
                       name: "flip",
-                      enabled: true, // 👈 disable flipping up
+                      enabled: true, 
                     },
                   ]}
                   transition
@@ -390,15 +390,16 @@ const AdminSubject = () => {
                 </Popper>
               </React.Fragment>
             </div>
-            {/* Academic Year select */}
-            <div className="relative inline-block text-left w-70">
+
+            <div className="relative inline-block w-full max-w-xs text-left sm:max-w-sm">
               <React.Fragment>
                 <ButtonGroup
                   variant="contained"
                   ref={AcademicYearDropdownRef}
                   aria-label="Button group with a nested menu"
+                  className="w-full"
                 >
-                  <Button className="flex items-center justify-between w-full px-4 py-2 text-white bg-blue-600 cursor-pointer hover:bg-blue-400 rounded-xl focus:outline-none">
+                  <Button className="flex items-center justify-between flex-1 px-3 py-2 text-sm text-white bg-blue-600 cursor-pointer sm:px-4 sm:text-base hover:bg-blue-400 rounded-xl focus:outline-none">
                     {selectedAcademicYear}
                   </Button>
                   <Button
@@ -415,7 +416,7 @@ const AdminSubject = () => {
                   </Button>
                 </ButtonGroup>
                 <Popper
-                  sx={{ zIndex: 1 }}
+                  sx={{ zIndex: 1, width: "100%", maxWidth: "24rem" }}
                   open={isOpenAc_Year}
                   anchorEl={AcademicYearDropdownRef.current}
                   role={undefined}
@@ -454,15 +455,15 @@ const AdminSubject = () => {
               </React.Fragment>
             </div>
 
-            {/* Year select */}
-            <div className="relative inline-block w-48 text-left">
+            <div className="relative inline-block w-full max-w-xs text-left sm:max-w-sm">
               <React.Fragment>
                 <ButtonGroup
                   variant="contained"
                   ref={YearDropdownRef}
                   aria-label="Button group with a nested menu"
+                  className="w-full"
                 >
-                  <Button className="flex items-center justify-between w-full px-4 py-2 text-white bg-blue-600 cursor-pointer hover:bg-blue-400 rounded-xl focus:outline-none">
+                  <Button className="flex items-center justify-between flex-1 px-3 py-2 text-sm text-white bg-blue-600 cursor-pointer sm:px-4 sm:text-base hover:bg-blue-400 rounded-xl focus:outline-none">
                     {selectedYear}
                   </Button>
                   <Button
@@ -477,7 +478,7 @@ const AdminSubject = () => {
                   </Button>
                 </ButtonGroup>
                 <Popper
-                  sx={{ zIndex: 1 }}
+                  sx={{ zIndex: 1, width: "100%", maxWidth: "24rem" }}
                   open={isOpenYear}
                   anchorEl={YearDropdownRef.current}
                   role={undefined}
@@ -514,15 +515,15 @@ const AdminSubject = () => {
               </React.Fragment>
             </div>
 
-            {/* Semester select */}
-            <div className="relative inline-block w-48 text-left">
+            <div className="relative inline-block w-full max-w-xs text-left sm:max-w-sm">
               <React.Fragment>
                 <ButtonGroup
                   variant="contained"
                   ref={anchorRef}
                   aria-label="Button group with a nested menu"
+                  className="w-full"
                 >
-                  <Button className="flex items-center justify-between w-full px-4 py-2 text-white bg-blue-600 cursor-pointer hover:bg-blue-400 rounded-xl focus:outline-none">
+                  <Button className="flex items-center justify-between flex-1 px-3 py-2 text-sm text-white bg-blue-600 cursor-pointer sm:px-4 sm:text-base hover:bg-blue-400 rounded-xl focus:outline-none">
                     {selectedSemester}
                   </Button>
                   <Button
@@ -539,7 +540,7 @@ const AdminSubject = () => {
                   </Button>
                 </ButtonGroup>
                 <Popper
-                  sx={{ zIndex: 1 }}
+                  sx={{ zIndex: 1, width: "100%", maxWidth: "24rem" }}
                   open={isOpenSemester}
                   anchorEl={anchorRef.current}
                   role={undefined}
@@ -578,16 +579,16 @@ const AdminSubject = () => {
               </React.Fragment>
             </div>
 
-            {/* Subject select */}
-            <div className="relative inline-block text-left w-110">
+            <div className="relative inline-block w-full max-w-xs text-left sm:max-w-md">
               <React.Fragment>
                 <ButtonGroup
                   variant="contained"
                   ref={subjectDropdownRef}
                   aria-label="Button group with a nested menu"
+                  className="w-full"
                 >
-                  <Button className="flex items-center justify-between w-full px-4 py-2 text-white bg-blue-600 cursor-pointer hover:bg-blue-400 rounded-xl focus:outline-none">
-                    {selectedSubject}
+                  <Button className="flex items-center justify-between flex-1 px-3 py-2 text-sm text-white bg-blue-600 cursor-pointer sm:px-4 sm:text-base hover:bg-blue-400 rounded-xl focus:outline-none">
+                    <span className="truncate">{selectedSubject}</span>
                   </Button>
                   <Button
                     size="small"
@@ -603,7 +604,7 @@ const AdminSubject = () => {
                   </Button>
                 </ButtonGroup>
                 <Popper
-                  sx={{ zIndex: 1 }}
+                  sx={{ zIndex: 1, width: "100%", maxWidth: "28rem" }}
                   open={isOpenSubject}
                   anchorEl={subjectDropdownRef.current}
                   role={undefined}
@@ -651,85 +652,89 @@ const AdminSubject = () => {
             </div>
           </div>
 
-          <div className="grid grid-rows-2 gap-y-9 gap-x-20">
-            <div className="flex grid items-center w-full grid-rows-1 p-4 rounded-lg shadow-sm gap-y-2 gap-x-2">
+          <div className="grid w-full grid-rows-2 gap-6 sm:gap-9">
+            <div className="flex items-center w-full min-h-[8rem] p-4 rounded-lg shadow-sm">
               {findingDuplicateSubjects ? (
-                <div className="flex items-center justify-center col-span-full">
+                <div className="flex flex-col items-center justify-center w-full gap-2 sm:flex-row">
                   <img
                     src="/assets/search.gif"
                     alt="Loading..."
-                    className="w-20 h-20"
+                    className="w-16 h-16 sm:w-20 sm:h-20"
                   />
                   <img
                     src="/assets/findingdup_text.svg"
                     alt="Finding duplicates..."
-                    className="w-40 h-30"
+                    className="w-32 h-24 sm:w-40 sm:h-30"
                   />
                 </div>
               ) : foundedduplicate ? (
-                <div className="flex items-center justify-center col-span-full">
+                <div className="flex flex-col items-center justify-center w-full gap-2 sm:flex-row">
                   <img
                     src="/assets/duplicated.gif"
                     alt="Duplicate text"
-                    className="w-30 h-30"
+                    className="w-24 h-24 sm:w-30 sm:h-30"
                   />
-                  <div className="font-semibold text-red-700">
+                  <div className="font-semibold text-center text-red-700">
                     Found Duplicate!
                   </div>
                 </div>
               ) : savingsubject ? (
-                <div className="flex items-center justify-center col-span-full">
+                <div className="flex flex-col items-center justify-center w-full gap-2 sm:flex-row">
                   <img
                     src="/assets/saving.gif"
                     alt="Saving Subject"
-                    className="w-20 h-20"
+                    className="w-16 h-16 sm:w-20 sm:h-20"
                   />
-                  <div className="font-semibold text-pink-700">
+                  <div className="font-semibold text-center text-pink-700">
                     Subject Saving...
                   </div>
                 </div>
               ) : completed ? (
-                <div className="flex items-center justify-center ">
+                <div className="flex flex-col items-center justify-center w-full gap-2 sm:flex-row">
                   <img
                     src="/assets/completed.gif"
                     alt="Completed"
-                    className="w-20 h-20"
+                    className="w-16 h-16 sm:w-20 sm:h-20"
                   />
-                  <div className="font-semibold text-green-700">Completed</div>
+                  <div className="font-semibold text-center text-green-700">
+                    Completed
+                  </div>
                 </div>
               ) : (
-                <div>
-                  <div className="font-semibold">
+                <div className="w-full text-sm sm:text-base">
+                  <div className="font-semibold break-words">
                     Semester Version: {selectedSemesterVersion}
                   </div>
-                  <div className="font-semibold">
+                  <div className="font-semibold break-words">
                     Academic Year : {selectedAcademicYear}
                   </div>
-                  <div className="font-semibold">Year : {selectedYear}</div>
-                  <div className="font-semibold">
+                  <div className="font-semibold break-words">
+                    Year : {selectedYear}
+                  </div>
+                  <div className="font-semibold break-words">
                     Semester: {selectedSemester}
                   </div>
-                  <div className="font-semibold">
+                  <div className="font-semibold break-words">
                     Subject: {selectedSubject}
                   </div>
                 </div>
               )}
             </div>
 
-            <div className="flex items-center p-4 border rounded-lg shadow-sm">
-              <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center w-full gap-4 p-4 border rounded-lg shadow-sm sm:flex-row">
+              <div className="flex flex-col items-center flex-shrink-0">
                 <img
                   src={image}
                   alt="Profile Image"
-                  className="object-cover w-20 h-20 rounded-full"
+                  className="object-cover w-16 h-16 rounded-full sm:w-20 sm:h-20"
                 />
-                <p className="mt-2 text-lg font-semibold">
+                <p className="mt-2 text-base font-semibold text-center sm:text-lg">
                   {title}
                   {name}
                 </p>
               </div>
 
-              <div className="flex ml-auto space-x-4">
+              <div className="flex justify-center w-full gap-4 sm:ml-auto sm:w-auto sm:justify-end">
                 <button
                   type="button"
                   onClick={addlec_subject}

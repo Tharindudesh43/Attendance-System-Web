@@ -452,7 +452,7 @@ const LecAttAnalysis = () => {
       </div>
 
       <div className="__lec-strip" style={styles.lectureStrip}>
-        <SectionLabel>📚 Subject Progress</SectionLabel>
+        <SectionLabel>Subject Progress</SectionLabel>
 
         {remaininglecturecount ? (
           <LoadingState />
@@ -494,7 +494,7 @@ const LecAttAnalysis = () => {
       </div>
 
       <div className="__lec-charts-section" style={styles.chartsSection}>
-        <SectionLabel>📊 Analytics Overview</SectionLabel>
+        <SectionLabel>Analytics Overview</SectionLabel>
 
         <div className="__lec-charts-grid" style={styles.chartsGrid}>
 

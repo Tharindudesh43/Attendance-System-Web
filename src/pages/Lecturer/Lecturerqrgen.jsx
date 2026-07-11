@@ -528,10 +528,28 @@ return (
       .back-btn:hover { background: #eff6ff; box-shadow: 0 2px 10px rgba(37,99,235,.12); }
       .qr-card { background: white; border-radius: 18px; border: 1.5px solid #e2e8f0; box-shadow: 0 2px 16px rgba(30,64,175,.06); overflow: hidden; }
       .qr-section-title { font-size: 10px; font-weight: 800; color: #3b82f6; text-transform: uppercase; letter-spacing: .12em; margin-bottom: 3px; }
+      .qr-code-box svg { max-width: 100%; height: auto; }
+
       @media (max-width: 768px) {
         .qr-main-grid { grid-template-columns: 1fr !important; }
         .qr-page-pad  { padding: 14px !important; }
         .qr-header-pad{ padding: 12px 16px !important; }
+        .qr-badge-text { display: none !important; }
+        .qr-config-card { padding: 16px !important; }
+        .qr-config-row { gap: 10px !important; }
+      }
+
+      @media (max-width: 560px) {
+        .qr-modal-overlay { padding: 14px !important; align-items: flex-start !important; padding-top: 28px !important; }
+        .qr-modal-card { padding: 22px 18px !important; min-width: 0 !important; width: 100% !important; max-width: 340px !important; }
+        .qr-live-card { width: 100% !important; max-width: 340px !important; }
+        .qr-header-pad { flex-wrap: wrap !important; }
+        .qr-header-badge { order: 3; margin-left: 0 !important; }
+        .qr-subject-summary { padding: 12px 16px !important; }
+      }
+
+      @media (max-width: 380px) {
+        .qr-modal-qr svg, .qr-modal-qr { width: 200px !important; height: 200px !important; }
       }
     `}</style>
 
@@ -544,16 +562,16 @@ return (
         </svg>
         Back
       </button>
-      <div style={{ flex: 1 }}>
+      <div style={{ flex: 1, minWidth: 0 }}>
         <div className="qr-section-title">Lecturer Portal</div>
         <h2 style={{ fontSize: "1.2rem", fontWeight: 800, color: "#0f172a", margin: 0, letterSpacing: "-0.01em" }}>QR Code Generator</h2>
       </div>
-      <div style={{ display: "flex", alignItems: "center", gap: 7, background: "#eff6ff", border: "1.5px solid #dbeafe", borderRadius: 10, padding: "7px 14px" }}>
+      <div className="qr-header-badge" style={{ display: "flex", alignItems: "center", gap: 7, background: "#eff6ff", border: "1.5px solid #dbeafe", borderRadius: 10, padding: "7px 14px" }}>
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2563eb" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <rect x="3" y="3" width="5" height="5"/><rect x="16" y="3" width="5" height="5"/><rect x="3" y="16" width="5" height="5"/>
           <path d="M21 16h-3v3M21 21v.01M16 16v.01M13 13h3M13 3v3M13 8v3M8 13H3M13 13v3M13 16h3"/>
         </svg>
-        <span style={{ fontSize: 13, fontWeight: 700, color: "#1e40af" }}>Generate QR</span>
+        <span className="qr-badge-text" style={{ fontSize: 13, fontWeight: 700, color: "#1e40af" }}>Generate QR</span>
       </div>
     </div>
 
@@ -566,7 +584,7 @@ return (
             <div style={{ fontSize: 14, fontWeight: 800, color: "#0f172a" }}>Select Subject</div>
           </div>
 
-          <div style={{ overflowY: "auto", maxHeight: 420 }}>
+          <div style={{ overflowX: "auto", overflowY: "auto", maxHeight: 420 }}>
             <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
               <thead>
                 <tr style={{ background: "#f8faff" }}>
@@ -620,8 +638,8 @@ return (
           </div>
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-          <div className="qr-card" style={{ padding: "14px 20px", display: "flex", alignItems: "center", gap: 12 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 16, minWidth: 0 }}>
+          <div className="qr-card qr-subject-summary" style={{ padding: "14px 20px", display: "flex", alignItems: "center", gap: 12 }}>
             <div style={{ width: 36, height: 36, borderRadius: 10, background: "#eff6ff", border: "1.5px solid #dbeafe", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563eb" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2zM22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/>
@@ -635,13 +653,13 @@ return (
             </div>
           </div>
 
-          <div className="qr-card" style={{ padding: "18px 20px" }}>
+          <div className="qr-card qr-config-card" style={{ padding: "18px 20px" }}>
             <div style={{ marginBottom: 14 }}>
               <div className="qr-section-title">Step 2</div>
               <div style={{ fontSize: 14, fontWeight: 800, color: "#0f172a" }}>Configure Session</div>
             </div>
 
-            <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
+            <div className="qr-config-row" style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
               <React.Fragment>
                 <ButtonGroup variant="contained" ref={anchorRef} aria-label="Button group with a nested menu">
                   <Button>{selectedDuration}</Button>
@@ -700,11 +718,11 @@ return (
             </div>
 
             {QRtext ? (
-              <div style={{ filter: isBlurred ? "blur(5px)" : "none", padding: 12, background: "white", borderRadius: 14, border: "1.5px solid #dbeafe", boxShadow: "0 4px 20px rgba(30,64,175,.1)" }}>
-                <QRCode value={QRtext} size={180} />
+              <div className="qr-code-box" style={{ filter: isBlurred ? "blur(5px)" : "none", padding: 12, background: "white", borderRadius: 14, border: "1.5px solid #dbeafe", boxShadow: "0 4px 20px rgba(30,64,175,.1)", maxWidth: "100%" }}>
+                <QRCode value={QRtext} size={180} style={{ maxWidth: "100%", height: "auto", width: "100%" }} />
               </div>
             ) : (
-              <div style={{ width: 180, height: 180, borderRadius: 14, border: "2px dashed #bfdbfe", background: "#f8faff", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 8 }}>
+              <div style={{ width: 180, maxWidth: "100%", height: 180, borderRadius: 14, border: "2px dashed #bfdbfe", background: "#f8faff", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 8 }}>
                 <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#bfdbfe" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                   <rect x="3" y="3" width="5" height="5"/><rect x="16" y="3" width="5" height="5"/><rect x="3" y="16" width="5" height="5"/>
                   <path d="M21 16h-3v3M21 21v.01M16 16v.01M13 13h3M13 8v3M8 13H3M13 13v3M13 16h3"/>
@@ -718,16 +736,16 @@ return (
     </div>
 
     {QRtext && (
-      <div style={{ position: "fixed", inset: 0, zIndex: 50, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(15,23,42,.75)", backdropFilter: "blur(6px)", gap: 20, flexWrap: "wrap", padding: "20px" }}>
+      <div className="qr-modal-overlay" style={{ position: "fixed", inset: 0, zIndex: 50, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(15,23,42,.75)", backdropFilter: "blur(6px)", gap: 20, flexWrap: "wrap", padding: "20px", overflowY: "auto" }}>
 
-        <div style={{ background: "white", borderRadius: 22, padding: "32px 28px", display: "flex", flexDirection: "column", alignItems: "center", gap: 18, boxShadow: "0 24px 64px rgba(0,0,0,.3)", animation: "fadeIn .3s ease forwards", minWidth: 280 }}>
+        <div className="qr-modal-card" style={{ background: "white", borderRadius: 22, padding: "32px 28px", display: "flex", flexDirection: "column", alignItems: "center", gap: 18, boxShadow: "0 24px 64px rgba(0,0,0,.3)", animation: "fadeIn .3s ease forwards", minWidth: 280 }}>
           <div style={{ textAlign: "center" }}>
             <div style={{ fontSize: 10, fontWeight: 800, color: "#3b82f6", textTransform: "uppercase", letterSpacing: ".12em", marginBottom: 4 }}>Scan to Mark Attendance</div>
             <h2 style={{ fontSize: "1.2rem", fontWeight: 800, color: "#0f172a", margin: 0 }}>Scan Me</h2>
           </div>
 
-          <div style={{ filter: isBlurred ? "blur(5px)" : "none", padding: 14, background: "white", borderRadius: 16, border: "2px solid #dbeafe", boxShadow: "0 4px 20px rgba(30,64,175,.12)" }}>
-            <QRCode value={QRtext} size={260} />
+          <div className="qr-modal-qr" style={{ filter: isBlurred ? "blur(5px)" : "none", padding: 14, background: "white", borderRadius: 16, border: "2px solid #dbeafe", boxShadow: "0 4px 20px rgba(30,64,175,.12)", maxWidth: "100%" }}>
+            <QRCode value={QRtext} size={260} style={{ maxWidth: "100%", height: "auto", width: "100%" }} />
           </div>
 
           <div style={{ display: "flex", alignItems: "center", gap: 8, background: "#eff6ff", border: "1.5px solid #dbeafe", borderRadius: 100, padding: "8px 20px" }}>
@@ -756,7 +774,7 @@ return (
           </div>
         </div>
 
-        <div style={{ background: "white", borderRadius: 22, overflow: "hidden", boxShadow: "0 24px 64px rgba(0,0,0,.25)", animation: "fadeIn .35s ease forwards", width: 300, maxHeight: 440, display: "flex", flexDirection: "column" }}>
+        <div className="qr-live-card" style={{ background: "white", borderRadius: 22, overflow: "hidden", boxShadow: "0 24px 64px rgba(0,0,0,.25)", animation: "fadeIn .35s ease forwards", width: 300, maxHeight: 440, display: "flex", flexDirection: "column" }}>
           <div style={{ padding: "16px 18px", borderBottom: "1.5px solid #f1f5f9", display: "flex", alignItems: "center", gap: 10 }}>
             <span style={{ width: 8, height: 8, borderRadius: "50%", background: "#22c55e", display: "inline-block", animation: "pulse 1.2s ease-in-out infinite" }} />
             <div style={{ fontSize: 13, fontWeight: 800, color: "#0f172a" }}>Live Attendance</div>
@@ -767,7 +785,7 @@ return (
             )}
           </div>
 
-          <div style={{ overflowY: "auto", flex: 1 }}>
+          <div style={{ overflowY: "auto", overflowX: "auto", flex: 1 }}>
             <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
               <thead>
                 <tr style={{ background: "#f8faff" }}>

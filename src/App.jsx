@@ -14,6 +14,7 @@ import {ReloadProvider } from './ReloadContext'
 import AttHistoryData from './pages/Lecturer/Att_History_data.jsx';
 import LecAttAnalysis from './pages/Lecturer/Lec_Att_Analysis.jsx';
 import SendNotification from './pages/Lecturer/send_notifications';
+import PrivacyPolicy from './pages/privacy-policy.jsx';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
           <Route path='/admin/subjectsdetails/:id' element={<Subjectsdetails/>}></Route>
           <Route path='/lecturer/attendace_analysis/:id' element={<LecAttAnalysis/>}></Route>
           <Route path='/lecturer/send_notification/:id' element={<SendNotification/>}></Route>
+          <Route path='/privacy-policy' element={<PrivacyPolicy/>}></Route>
       </Routes>
     </ReloadProvider>
     </>

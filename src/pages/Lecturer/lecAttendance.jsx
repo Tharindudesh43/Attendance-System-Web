@@ -5,9 +5,10 @@ import {
   View,
   StyleSheet,
   PDFViewer,
+  BlobProvider,
   Image
 } from "@react-pdf/renderer";
-import { useState,useEffect } from 'react'
+import { useState, useEffect } from 'react'
 
 
 const styles = StyleSheet.create({
@@ -68,7 +69,13 @@ const styles = StyleSheet.create({
 });
 
 
-// Create Document Component
+function isMobileDevice() {
+  if (typeof navigator === "undefined") return false;
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+    navigator.userAgent
+  );
+}
+
 function LecAttendance() {
    const [allattendace, setAllAttendace] = useState([]);
    const [academic,setacademic]=useState("");
@@ -78,6 +85,11 @@ function LecAttendance() {
    const [department,setdepartment]=useState("");
    const [coursecode,setcoursecode]=useState("");
    const [coursetitle,setcoursetitle]=useState("");
+   const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    setIsMobile(isMobileDevice());
+  }, []);
 
   useEffect(() => {
     const storedData = localStorage.getItem("attendanceData");
@@ -106,65 +118,119 @@ function LecAttendance() {
       setdepartment(JSON.parse(deaprtment));
     }
   }, []);
-  return (
-    <PDFViewer style={styles.viewer}>
-      <Document>
-        <Page size="A4" style={styles.page}>
-           <Image src="/assets/Uni_Log.jpeg" style={styles.logo}/>
-          <Text style={styles.title}>{department}</Text>
-          <Text style={styles.title}>{faculty}</Text>
-          <Text style={styles.subTitle}>{university}</Text>
-          <Text style={styles.subTitle}>Students Attendance Sheet</Text>
-          <Text style={styles.subTitle}>Academic Year: {academic} | Semester: {semester}</Text>
-          {/* <Text style={styles.title}>{subject}</Text> */}
-          <Text style={styles.subTitle}>Course Code: {coursecode}  | Course Title: {coursetitle}</Text>
 
-          {/* Table Header */}
-          <View style={styles.tableHeader}>
-            <Text style={styles.headerCell}>Student Name</Text>
-            <Text style={styles.headerCell}>Registration No</Text>
+  const AttendanceDocument = (
+    <Document>
+      <Page size="A4" style={styles.page}>
+         <Image src="/assets/Uni_Log.jpeg" style={styles.logo}/>
+        <Text style={styles.title}>{department}</Text>
+        <Text style={styles.title}>{faculty}</Text>
+        <Text style={styles.subTitle}>{university}</Text>
+        <Text style={styles.subTitle}>Students Attendance Sheet</Text>
+        <Text style={styles.subTitle}>Academic Year: {academic} | Semester: {semester}</Text>
+        {/* <Text style={styles.title}>{subject}</Text> */}
+        <Text style={styles.subTitle}>Course Code: {coursecode}  | Course Title: {coursetitle}</Text>
+
+        {/* Table Header */}
+        <View style={styles.tableHeader}>
+          <Text style={styles.headerCell}>Student Name</Text>
+          <Text style={styles.headerCell}>Registration No</Text>
+        </View>
+
+        {allattendace.map((item, index) => (
+          <View style={styles.tableRow} key={index}>
+            <Text style={styles.cell}>{item[1]}</Text>
+            <Text style={styles.cell}>{item[0]}</Text>
           </View>
-
-          {/* Table Rows */}
-          {allattendace.map((item, index) => (
-            <View style={styles.tableRow} key={index}>
-              <Text style={styles.cell}>{item[1]}</Text>
-              <Text style={styles.cell}>{item[0]}</Text>
-            </View>
-          ))}
-          <View style={{ marginTop: 40 }}>
-        <Text>Note: Please return to the Department of {department} on completion of the lecture or lab session.</Text>
+        ))}
+        <View style={{ marginTop: 40 }}>
+      <Text>Note: Please return to the Department of {department} on completion of the lecture or lab session.</Text>
 </View>
 <View style={{ marginTop: 30 ,marginLeft:50}}>
-  <Text>   Remarks: ......................................................................................................................</Text>
-  <Text>   ............................................................................................................................</Text>
-  <Text>   ............................................................................................................................</Text>
+<Text>   Remarks: ......................................................................................................................</Text>
+<Text>   ............................................................................................................................</Text>
+<Text>   ............................................................................................................................</Text>
 </View>
 
-{/* Signature Section */}
 <View style={{ flexDirection: 'row', marginTop: 30, justifyContent: 'space-between' }}>
-  <View>
-    <Text>Name(s) of the Lecturer/Instructor/Demonstrator</Text>
-    <Text style={{ marginTop: 10 ,marginLeft:10}}>Name of the Lect. In Charge: ..................................</Text>
-  </View>
-
-  <View>
-   <Text style={{ marginTop: 10 }}>..........................................................</Text>
-    <Text>Signature</Text>
-    <Text style={{ marginTop: 10 }}>..........................................................</Text>
-    <Text>Signature</Text>
-  </View>
+<View>
+  <Text>Name(s) of the Lecturer/Instructor/Demonstrator</Text>
+  <Text style={{ marginTop: 10 ,marginLeft:10}}>Name of the Lect. In Charge: ..................................</Text>
 </View>
 
-{/* HOD Section */}
+<View>
+ <Text style={{ marginTop: 10 }}>..........................................................</Text>
+  <Text>Signature</Text>
+  <Text style={{ marginTop: 10 }}>..........................................................</Text>
+  <Text>Signature</Text>
+</View>
+</View>
+
 <View style={{ marginTop: 30 }}>
-  <Text>..........................................................</Text>
-  <Text>Head of The Department</Text>
-  <Text>(Dept.of.{department})</Text>
+<Text>..........................................................</Text>
+<Text>Head of The Department</Text>
+<Text>(Dept.of.{department})</Text>
 </View>
 
-        </Page>
-      </Document>
+      </Page>
+    </Document>
+  );
+
+  if (isMobile) {
+    return (
+      <div
+        style={{
+          minHeight: "100vh",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: 16,
+          padding: 24,
+          fontFamily: "sans-serif",
+          textAlign: "center",
+        }}
+      >
+        <p style={{ fontSize: 15, color: "#334155", maxWidth: 320 }}>
+          The attendance sheet is ready. Tap below to open or download the PDF.
+        </p>
+        <BlobProvider document={AttendanceDocument}>
+          {({ url, loading, error }) => {
+            if (loading) {
+              return <span style={{ fontSize: 13, color: "#94a3b8" }}>Preparing PDF...</span>;
+            }
+            if (error) {
+              return <span style={{ fontSize: 13, color: "#be123c" }}>Failed to generate PDF.</span>;
+            }
+            return (
+              <a
+                href={url}
+                download="attendance-sheet.pdf"
+                target="_blank"
+                rel="noreferrer"
+                style={{
+                  display: "inline-block",
+                  padding: "12px 24px",
+                  borderRadius: 10,
+                  background: "#2563eb",
+                  color: "white",
+                  fontWeight: 700,
+                  fontSize: 14,
+                  textDecoration: "none",
+                }}
+              >
+                Open / Download PDF
+              </a>
+            );
+          }}
+        </BlobProvider>
+      </div>
+    );
+  }
+
+  return (
+    <PDFViewer style={styles.viewer}>
+      {AttendanceDocument}
     </PDFViewer>
   );
 }

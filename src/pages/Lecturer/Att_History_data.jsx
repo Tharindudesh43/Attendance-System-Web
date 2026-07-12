@@ -40,7 +40,7 @@ const Att_History_data = () => {
   const [selectedAttendanceIndex, setSelectedAttendanceIndex] = useState(null);
 
   const handleRowClick = (index) => {
-    setSelectedIndex((prev) => (prev === index ? null : index)); // Toggle selection
+    setSelectedIndex((prev) => (prev === index ? null : index)); 
   };
 
   const handleOpenPDF = (event) => {

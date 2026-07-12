@@ -17,7 +17,7 @@ const Footer = () => {
   const handleFooterLinkClick = (l) => {
     if (l === "About Us") {
       setAboutUsShowModal(true);
-    } else if (l === "Contact") {
+    } else if (l === "Contact Us") {
       setContactUsShowModal(true);
     } else {
       navigate(routes[l]);
